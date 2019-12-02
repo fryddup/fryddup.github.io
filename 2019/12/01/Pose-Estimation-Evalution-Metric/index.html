@@ -6,19 +6,31 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://fryddup.github.io">
-  <title>Archives: 2019 | 桦七</title>
+  <title>Pose Estimation Evaluation (Metric) | 桦七</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="浙江工商大学计算机硕士">
-<meta name="keywords" content="python机器学习，Java后端开发">
-<meta property="og:type" content="website">
-<meta property="og:title" content="桦七">
-<meta property="og:url" content="http://fryddup.github.io/archives/2019/page/2/index.html">
+  <meta name="description" content="对于人体骨骼关键点算法来说，如何有效的衡量一个算法的好坏非常重要，他不像分类问题那样可以很容易采用一些常用指标，例如precise、error、F-score等进行计算。因为在衡量的过程中，我们无法有效的将预测结果与真实值一一对应，无法知道他们之前的对应关系，更加无法知道当前的某个预测结果是否出现了误检或者漏检的情况。因此，构建一个合适的人体关键点的度量指标很重要。 本文目前涉及 oks、AP、m">
+<meta name="keywords" content="论文&#x2F;Paper">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pose Estimation Evaluation (Metric)">
+<meta property="og:url" content="http://fryddup.github.io/2019/12/01/Pose-Estimation-Evalution-Metric/index.html">
 <meta property="og:site_name" content="桦七">
-<meta property="og:description" content="浙江工商大学计算机硕士">
+<meta property="og:description" content="对于人体骨骼关键点算法来说，如何有效的衡量一个算法的好坏非常重要，他不像分类问题那样可以很容易采用一些常用指标，例如precise、error、F-score等进行计算。因为在衡量的过程中，我们无法有效的将预测结果与真实值一一对应，无法知道他们之前的对应关系，更加无法知道当前的某个预测结果是否出现了误检或者漏检的情况。因此，构建一个合适的人体关键点的度量指标很重要。 本文目前涉及 oks、AP、m">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=OKS_%7Bp%7D+%3D+%5Cfrac%7B%5Csum_i+exp%5C%7B-d_%7Bpi%7D%5E2+%2F+2S_p%5E2+%5Csigma_i%5E2%5C%7D%5Cdelta%28v_%7Bpi%7D%3D1%29%7D%7B%5Csum_i+%5Cdelta%28v_%7Bpi%7D%3D1%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=i">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=d_%7Bpi%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=S_p">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Csqrt%7B%28x_2-x_1%29%28y_2-y_1%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Csigma_i">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Csigma">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=v_%7Bpi%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cdelta">
+<meta property="og:updated_time" content="2019-12-02T15:52:12.130Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="桦七">
-<meta name="twitter:description" content="浙江工商大学计算机硕士">
+<meta name="twitter:title" content="Pose Estimation Evaluation (Metric)">
+<meta name="twitter:description" content="对于人体骨骼关键点算法来说，如何有效的衡量一个算法的好坏非常重要，他不像分类问题那样可以很容易采用一些常用指标，例如precise、error、F-score等进行计算。因为在衡量的过程中，我们无法有效的将预测结果与真实值一一对应，无法知道他们之前的对应关系，更加无法知道当前的某个预测结果是否出现了误检或者漏检的情况。因此，构建一个合适的人体关键点的度量指标很重要。 本文目前涉及 oks、AP、m">
+<meta name="twitter:image" content="https://www.zhihu.com/equation?tex=OKS_%7Bp%7D+%3D+%5Cfrac%7B%5Csum_i+exp%5C%7B-d_%7Bpi%7D%5E2+%2F+2S_p%5E2+%5Csigma_i%5E2%5C%7D%5Cdelta%28v_%7Bpi%7D%3D1%29%7D%7B%5Csum_i+%5Cdelta%28v_%7Bpi%7D%3D1%29%7D">
   
     <link rel="alternative" href="/atom.xml" title="桦七" type="application/atom+xml">
   
@@ -164,74 +176,120 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Pose-Estimation-Evalution-Metric" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/11/Python模块封装/" class="archive-article-date">
-  	<time datetime="2019-10-11T12:29:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/11/Python模块封装/">Python模块封装</a>
+    <h1 class="article-title" itemprop="name">
+      Pose Estimation Evaluation (Metric)
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Python编程学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/02/MultiPoseNet-Fast-Multi-Person-Pose-Estimation-using-Pose-Residual-Network/" class="archive-article-date">
-  	<time datetime="2019-10-02T05:38:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-02</time>
+        
+        <a href="/2019/12/01/Pose-Estimation-Evalution-Metric/" class="archive-article-date">
+  	<time datetime="2019-12-01T14:00:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-01</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/02/MultiPoseNet-Fast-Multi-Person-Pose-Estimation-using-Pose-Residual-Network/">MultiPoseNet论文学习</a>
-    </h1>
-  
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">1.9k字</span>
+      </span>
+    </span>
 
-        <div class="article-info info-on-right">
-          
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">8分</span>
+      </span>
+    </span>
+</div>
+           
+        
+        
+          <span class="archive-article-date">
+             阅读量 <span id="busuanzi_value_page_pv"></span>
+          </span>
+
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>对于人体骨骼关键点算法来说，如何有效的衡量一个算法的好坏非常重要，他不像分类问题那样可以很容易采用一些常用指标，例如precise、error、F-score等进行计算。因为在衡量的过程中，我们无法有效的将预测结果与真实值一一对应，无法知道他们之前的对应关系，更加无法知道当前的某个预测结果是否出现了误检或者漏检的情况。因此，构建一个合适的人体关键点的度量指标很重要。</p>
+<p>本文目前涉及 <strong>oks、AP、mAP、PCK、PCKh、PDJ</strong>，后续碰到新的会继续补充</p>
+<hr>
+<h4 id="一、oks"><a href="#一、oks" class="headerlink" title="一、oks"></a>一、oks</h4><p>目前最为常用的就是<strong>OKS（Object Keypoint Similarity）</strong>指标，这个指标启发于目标检测中的IoU指标，目的就是为了计算真值和预测人体关键点的相似度。</p>
+<h4 id="OKS"><a href="#OKS" class="headerlink" title="OKS"></a>OKS</h4><p><img src="https://www.zhihu.com/equation?tex=OKS_%7Bp%7D+%3D+%5Cfrac%7B%5Csum_i+exp%5C%7B-d_%7Bpi%7D%5E2+%2F+2S_p%5E2+%5Csigma_i%5E2%5C%7D%5Cdelta%28v_%7Bpi%7D%3D1%29%7D%7B%5Csum_i+%5Cdelta%28v_%7Bpi%7D%3D1%29%7D" alt="[公式]"></p>
+<p>其中：</p>
+<p><img src="https://www.zhihu.com/equation?tex=p" alt="[公式]"> 表示groudtruth中，人的id</p>
+<p><img src="https://www.zhihu.com/equation?tex=i" alt="[公式]"> 表示key point的id</p>
+<p><img src="https://www.zhihu.com/equation?tex=d_%7Bpi%7D" alt="[公式]"> 表示groudtruth中每个人和预测的每个人的关键点的欧氏距离</p>
+<p><img src="https://www.zhihu.com/equation?tex=S_p" alt="[公式]"> 表示当前人的尺度因子，这个值等于此人在groundtruth中所占面积的平方根，即 <img src="https://www.zhihu.com/equation?tex=%5Csqrt%7B%28x_2-x_1%29%28y_2-y_1%29%7D" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Csigma_i" alt="[公式]"> 表示第 i 个骨骼点的归一化因子，这个因此是通过对数据集中所有groundtruth计算的标准差而得到的，反映出当前骨骼点标注时候的标准差， <img src="https://www.zhihu.com/equation?tex=%5Csigma" alt="[公式]"> 越大表示这个点越难标注。</p>
+<p><img src="https://www.zhihu.com/equation?tex=v_%7Bpi%7D" alt="[公式]">代表第p个人的第 i 个关键点是否可见</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cdelta" alt="[公式]"> 用于将可见点选出来进行计算的函数</p>
+<h4 id="OKS矩阵"><a href="#OKS矩阵" class="headerlink" title="OKS矩阵"></a>OKS矩阵</h4><p>上面介绍的OKS是计算两个人之间的骨骼点相似度的，那一张图片中有很多的人时，该怎么计算呢？这时候就是构造一个OKS矩阵了。</p>
+<p>假设一张图中，一共有M个人（groudtruth中），现在算法预测出了N个人，那么我们就构造一个M×N的矩阵，矩阵中的位置（i,j）代表groudtruth中的第i个人和算法预测出的第j个人的OKS相似度，找到矩阵中每一行的最大值，作为对应于第i个人的OKS相似度值。</p>
+<h4 id="AP（Average-Precision）"><a href="#AP（Average-Precision）" class="headerlink" title="AP（Average Precision）"></a>AP（Average Precision）</h4><p>根据前面的OKS矩阵，已经知道了某一张图像的所有人（groundtruth中出现的）的OKS分数，现在测试集中有很多图像，每张图像又有一些人，此时该如何衡量整个算法的好坏的。这个时候就用到了AP的概念，AP就是给定一个t，如果当前的OKS大于t，那就说明当前这个人的骨骼点成功检测出来了，并且检测对了，如果小于t，则说明检测失败或者误检漏检等，因此对于所有的OKS，统计其中大于t的个数，并计算其占所有OKS的比值。即假设OKS一共有100个，其中大于阈值t的共有30个，那么AP值就是30/100=0.3.</p>
+<h4 id="mAP（mean-Average-Precision）"><a href="#mAP（mean-Average-Precision）" class="headerlink" title="mAP（mean Average Precision）"></a>mAP（mean Average Precision）</h4><p>顾名思义，AP的均值，具体计算方法就是给定不同的阈值t，计算不同阈值情况下对应的AP，然后求个均值就ok了。（<strong>与分类的 mAP 指标不同</strong>）</p>
+<hr>
+<h3 id="二、PCK-PCKh，PDJ"><a href="#二、PCK-PCKh，PDJ" class="headerlink" title="二、PCK,PCKh，PDJ"></a>二、PCK,PCKh，PDJ</h3><p><code>MPII 中是以头部长度(head length) 作为归一化参考，即 PCKh.</code></p>
+<p><code>FLIC 中是以躯干直径(torso size) 作为归一化参考.</code></p>
+<h4 id="1-PCK-Percentage-of-Correct-Keypoints"><a href="#1-PCK-Percentage-of-Correct-Keypoints" class="headerlink" title="1.PCK (Percentage of Correct Keypoints)"></a><strong>1.PCK (Percentage of Correct Keypoints)</strong></h4><p>关键点正确估计的比例<br>计算检测的关键点与其对应的groundtruth间的归一化距离小于设定阈值的比例(the percentage of detections that fall within a normalized distance of the ground truth).</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">function eval_pck(pred, joints, symmetry_joint_id, joint_name, name)</span><br><span class="line">% PCK 的实现</span><br><span class="line">% torso height: || left_shoulder - right hip ||</span><br><span class="line">% symmetry_joint_id: 具有对称关系的关键点 ID</span><br><span class="line">% joint_name: 具有对称关系的关键点名字</span><br><span class="line"></span><br><span class="line">range = <span class="number">0</span>:<span class="number">0.01</span>:<span class="number">0.1</span>;</span><br><span class="line">show_joint_ids = (symmetry_joint_id &gt;= <span class="number">1</span>:numel(symmetry_joint_id));</span><br><span class="line"></span><br><span class="line">% compute distance to ground truth joints</span><br><span class="line">dist = get_dist_pck(pred, joints(<span class="number">1</span>:<span class="number">2</span>,:,:));</span><br><span class="line"></span><br><span class="line">% 计算 PCK</span><br><span class="line">pck_all = compute_pck(dist,range);</span><br><span class="line">pck = pck_all(end, :);</span><br><span class="line">pck(<span class="number">1</span>:end<span class="number">-1</span>) = (pck(<span class="number">1</span>:end<span class="number">-1</span>) + pck(symmetry_joint_id))/<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">% 可视化结果</span><br><span class="line">pck = [pck(show_joint_ids) pck(end)];</span><br><span class="line">fprintf(<span class="string">'------------ PCK Evaluation: %s -------------\n'</span>, name);</span><br><span class="line">fprintf(<span class="string">'Parts '</span>); fprintf(<span class="string">'&amp; %s '</span>, joint_name&#123;:&#125;); fprintf(<span class="string">'&amp; Mean\n'</span>);</span><br><span class="line">fprintf(<span class="string">'PCK   '</span>); fprintf(<span class="string">'&amp; %.1f  '</span>, pck); fprintf(<span class="string">'\n'</span>);</span><br><span class="line"></span><br><span class="line">% -------------------------------------------------------------------------</span><br><span class="line">function dist = get_dist_pck(pred, gt)</span><br><span class="line"><span class="keyword">assert</span>(size(pred,<span class="number">1</span>) == size(gt,<span class="number">1</span>) &amp;&amp; size(pred,<span class="number">2</span>) == size(gt,<span class="number">2</span>) &amp;&amp; size(pred,<span class="number">3</span>) == size(gt,<span class="number">3</span>));</span><br><span class="line"></span><br><span class="line">dist = nan(<span class="number">1</span>,size(pred, <span class="number">2</span>), size(pred,<span class="number">3</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> imgidx = <span class="number">1</span>:size(pred,<span class="number">3</span>)</span><br><span class="line">  % torso diameter 躯干直径</span><br><span class="line">  <span class="keyword">if</span> size(gt, <span class="number">2</span>) == <span class="number">14</span></span><br><span class="line">    refDist = norm(gt(:,<span class="number">10</span>,imgidx) - gt(:,<span class="number">3</span>,imgidx));</span><br><span class="line">  elseif size(gt, <span class="number">2</span>) == <span class="number">10</span> % <span class="number">10</span> joints FLIC</span><br><span class="line">    refDist = norm(gt(:,<span class="number">7</span>,imgidx) - gt(:,<span class="number">6</span>,imgidx));</span><br><span class="line">  elseif size(gt, <span class="number">2</span>) == <span class="number">11</span> % <span class="number">11</span> joints FLIC</span><br><span class="line">    refDist = norm(gt(:,<span class="number">4</span>,imgidx) - gt(:,<span class="number">11</span>,imgidx));</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    error(<span class="string">'Number of joints should be 14 or 10 or 11'</span>);</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">  % 预测的关键点与 gt 关键点的距离</span><br><span class="line">  dist(<span class="number">1</span>,:,imgidx) = sqrt(sum((pred(:,:,imgidx) - gt(:,:,imgidx)).^<span class="number">2</span>,<span class="number">1</span>))./refDist;</span><br><span class="line"></span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% -------------------------------------------------------------------------</span><br><span class="line">function pck = compute_pck(dist,range)</span><br><span class="line">pck = zeros(numel(range),size(dist,<span class="number">2</span>)+<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> jidx = <span class="number">1</span>:size(dist,<span class="number">2</span>)</span><br><span class="line">  % 计算每个设定阈值的 PCK</span><br><span class="line">  <span class="keyword">for</span> k = <span class="number">1</span>:numel(range)</span><br><span class="line">    pck(k,jidx) = <span class="number">100</span>*mean(squeeze(dist(<span class="number">1</span>,jidx,:)) &lt;= range(k));</span><br><span class="line">  end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% 计算平均 PCK</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numel(range)</span><br><span class="line">  pck(k,end) = <span class="number">100</span>*mean(reshape(squeeze(dist(<span class="number">1</span>,:,:)),size(dist,<span class="number">2</span>)*size(dist,<span class="number">3</span>),<span class="number">1</span>) &lt;= range(k));</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-1-PCKh"><a href="#1-1-PCKh" class="headerlink" title="1.1 PCKh"></a>1.1 PCKh</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">% 计算 head 的长度</span><br><span class="line">headSize = getHeadSizeAll(annolist_test_flat(single_person_test_flat == <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">% 计算预测的关键点与 gt 关键点间的归一化距离</span><br><span class="line">dist = getDistPCKh(pred,gt,headSize);</span><br><span class="line"></span><br><span class="line">% 计算 PCKh</span><br><span class="line">pck = computePCK(dist,range);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function headSizeAll = getHeadSizeAll(annolist)</span><br><span class="line">headSizeAll = nan(length(annolist),<span class="number">1</span>);</span><br><span class="line"><span class="keyword">for</span> imgidx = <span class="number">1</span>:length(annolist)</span><br><span class="line">    rect = annolist(imgidx).annorect;</span><br><span class="line">    headSizeAll(imgidx) =  util_get_head_size(rect);</span><br><span class="line">end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function headSize = util_get_head_size(rect)</span><br><span class="line">SC_BIAS = <span class="number">0.6</span>; % <span class="number">0.8</span>*<span class="number">0.75</span></span><br><span class="line">headSize = SC_BIAS*norm([rect.x2 rect.y2] - [rect.x1 rect.y1]); <span class="comment"># head 的两个点间的距离</span></span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function dist = getDistPCKh(pred,gt,refDist)</span><br><span class="line"><span class="keyword">assert</span>(size(pred,<span class="number">1</span>) == size(gt,<span class="number">1</span>) &amp;&amp; size(pred,<span class="number">2</span>) == size(gt,<span class="number">2</span>) &amp;&amp; size(pred,<span class="number">3</span>) == size(gt,<span class="number">3</span>));</span><br><span class="line"><span class="keyword">assert</span>(size(refDist,<span class="number">1</span>) == size(gt,<span class="number">3</span>));</span><br><span class="line"></span><br><span class="line">dist = nan(<span class="number">1</span>,size(pred,<span class="number">2</span>),size(pred,<span class="number">3</span>));</span><br><span class="line"><span class="keyword">for</span> imgidx = <span class="number">1</span>:size(pred,<span class="number">3</span>)</span><br><span class="line">    % pred joints 与 gt joints 的归一化距离</span><br><span class="line">    dist(<span class="number">1</span>,:,imgidx) = sqrt(sum((pred(:,:,imgidx) - gt(:,:,imgidx)).^<span class="number">2</span>,<span class="number">1</span>))./refDist(imgidx);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function pck = computePCK(dist,range)</span><br><span class="line">pck = zeros(numel(range),size(dist,<span class="number">2</span>)+<span class="number">2</span>);</span><br><span class="line"><span class="keyword">for</span> jidx = <span class="number">1</span>:size(dist,<span class="number">2</span>)</span><br><span class="line">    % 计算各阈值的 PCK</span><br><span class="line">    <span class="keyword">for</span> k = <span class="number">1</span>:numel(range)</span><br><span class="line">        d = squeeze(dist(<span class="number">1</span>,jidx,:));</span><br><span class="line">        % dist <span class="keyword">is</span> NaN <span class="keyword">if</span> gt <span class="keyword">is</span> missing; ignore dist <span class="keyword">in</span> this case</span><br><span class="line">        pck(k,jidx) = <span class="number">100</span>*mean(d(~isnan(d))&lt;=range(k));</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% 计算上半身关键点的平均 PCK</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numel(range)</span><br><span class="line">    d = reshape(squeeze(dist(<span class="number">1</span>,<span class="number">7</span>:<span class="number">12</span>,:)),<span class="number">6</span>*size(dist,<span class="number">3</span>),<span class="number">1</span>);</span><br><span class="line">    pck(k,end<span class="number">-1</span>) = <span class="number">100</span>*mean(d(~isnan(d))&lt;=range(k));</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% 计算全身关键点的 PCK</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numel(range)</span><br><span class="line">    d = reshape(squeeze(dist(<span class="number">1</span>,:,:)),size(dist,<span class="number">2</span>)*size(dist,<span class="number">3</span>),<span class="number">1</span>);</span><br><span class="line">    pck(k,end) = <span class="number">100</span>*mean(d(~isnan(d))&lt;=range(k));</span><br><span class="line">end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-PDJ-Percentage-of-Detected-Joints"><a href="#2-PDJ-Percentage-of-Detected-Joints" class="headerlink" title="2.PDJ - Percentage of Detected Joints"></a>2.PDJ - Percentage of Detected Joints</h4><p>检测到的关键点比例.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">function [accs, range] = eval_pdj(pred, joints, reference_joints_pair, symmetry_joint_id, joint_name, eval_name)</span><br><span class="line">% 设定选定的参考点：reference_joints_pair = [<span class="number">3</span>, <span class="number">10</span>];     % 右肩点到左臀点</span><br><span class="line">% symmetry_joint_id: 具有对称关系的关键点 ID</span><br><span class="line"><span class="keyword">assert</span>(numel(reference_joints_pair) == <span class="number">2</span>);</span><br><span class="line">show_joint_ids = find(symmetry_joint_id &gt;= <span class="number">1</span>:numel(symmetry_joint_id)); </span><br><span class="line">range = <span class="number">0</span>:<span class="number">0.01</span>:<span class="number">0.5</span>;</span><br><span class="line"></span><br><span class="line">num = size(pred, <span class="number">3</span>);</span><br><span class="line"><span class="keyword">assert</span>(num &gt;= <span class="number">1</span>);</span><br><span class="line">% the number of joints</span><br><span class="line">joint_n = size(joints, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">scale = zeros(<span class="number">1</span>, num);</span><br><span class="line"><span class="keyword">for</span> ii = <span class="number">1</span>:num</span><br><span class="line">  scale(ii) = norm( joints(:,reference_joints_pair(<span class="number">1</span>), ii) - joints(:,reference_joints_pair(<span class="number">2</span>), ii) );</span><br><span class="line">  %scale(ii) = <span class="number">100</span>;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">dists = zeros(num, joint_n);</span><br><span class="line"><span class="keyword">for</span> ii = <span class="number">1</span>:num</span><br><span class="line">  dists(ii,:) = sqrt(sum( (pred(:, :, ii) - joints(:,:,ii)).^<span class="number">2</span>, <span class="number">1</span> ));</span><br><span class="line">  dists(ii,:) = dists(ii,:) / scale(ii);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">accs = zeros(numel(range), joint_n);</span><br><span class="line"><span class="keyword">for</span> ii = <span class="number">1</span>:numel(range)</span><br><span class="line">  accs(ii,:) = mean(dists &lt;= range(ii),<span class="number">1</span>);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">accs = (accs + accs(:,symmetry_joint_id)) / <span class="number">2</span>;</span><br><span class="line">accs = accs(:, show_joint_ids);</span><br><span class="line">% <span class="keyword">print</span></span><br><span class="line">fprintf(<span class="string">'-------------- PDJ Evaluation ---------------\n'</span>)</span><br><span class="line">fprintf(<span class="string">'Joints    '</span>); fprintf(<span class="string">'&amp; %s '</span>, joint_name&#123;:&#125;); fprintf(<span class="string">'\n'</span>);</span><br><span class="line">sample_pdj_thresholds = [<span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0.3</span>, <span class="number">0.4</span>];</span><br><span class="line"><span class="keyword">for</span> ii = <span class="number">1</span>:length(sample_pdj_thresholds)</span><br><span class="line">  t = sample_pdj_thresholds(ii);</span><br><span class="line">  idx = (range == t);</span><br><span class="line">  fprintf(<span class="string">'PDJ@%.2f  '</span>, t); fprintf(<span class="string">'&amp; %.1f '</span>, accs(idx,:)*<span class="number">100</span>); fprintf(<span class="string">'\n'</span>);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% plot</span><br><span class="line">line_width = <span class="number">2</span>;</span><br><span class="line">p_color = &#123;<span class="string">'g'</span>,<span class="string">'y'</span>,<span class="string">'b'</span>,<span class="string">'r'</span>,<span class="string">'c'</span>,<span class="string">'k'</span>,<span class="string">'m'</span>&#125;;</span><br><span class="line"></span><br><span class="line">% visualize</span><br><span class="line">figure; hold on; grid on;</span><br><span class="line"><span class="keyword">for</span> ii = <span class="number">1</span>:numel(show_joint_ids)</span><br><span class="line">  plot(range, accs(:, ii), p_color&#123;mod(ii, numel(p_color))+<span class="number">1</span>&#125;, <span class="string">'linewidth'</span>, line_width);</span><br><span class="line">end</span><br><span class="line">leg_str = cell(numel(show_joint_ids), <span class="number">1</span>);</span><br><span class="line"><span class="keyword">for</span> ii = <span class="number">1</span>:numel(show_joint_ids)</span><br><span class="line">  leg_str&#123;ii&#125; = sprintf(<span class="string">'%s'</span>, joint_name&#123;ii&#125;);</span><br><span class="line">end</span><br><span class="line">h_leg = legend(leg_str, <span class="string">'FontSize'</span>, <span class="number">12</span>);</span><br><span class="line">set(h_leg, <span class="string">'location'</span>, <span class="string">'southeast'</span>, <span class="string">'linewidth'</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">axis([range(<span class="number">1</span>),range(end), <span class="number">0</span>, <span class="number">1</span>]);</span><br><span class="line">set(gca,<span class="string">'ytick'</span>, <span class="number">0</span>:<span class="number">0.1</span>:<span class="number">1</span>);</span><br><span class="line">set(gca, <span class="string">'linewidth'</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">% --- titles</span><br><span class="line">xlabel(<span class="string">'Normalized  Threshold'</span>) % x-axis label</span><br><span class="line">ylabel(<span class="string">'Detection Rate'</span>) % y-axis label</span><br><span class="line"></span><br><span class="line">title([eval_name <span class="string">' PDJ'</span>]);</span><br><span class="line">hold off;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/weixin.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -243,328 +301,137 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://fryddup.github.io/2019/12/01/Pose-Estimation-Evalution-Metric/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/21/神经网络学习踩坑合集-Updating/" class="archive-article-date">
-  	<time datetime="2019-09-21T08:49:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/12/01/Convolutional-Pose-Machines/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Convolutional Pose Machines</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/21/神经网络学习踩坑合集-Updating/">神经网络学习踩坑合集集_Updating</a>
-    </h1>
+  
+  
+  <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: "http://fryddup.github.io/2019/12/01/Pose-Estimation-Evalution-Metric/", 
+    sourceId: "Pose-Estimation-Evalution-Metric",
+    productKey: "true",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="//img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/21/CNN卷积神经网络/" class="archive-article-date">
-  	<time datetime="2019-09-21T08:43:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/21/CNN卷积神经网络/">CNN卷积神经网络</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/21/正则化/" class="archive-article-date">
-  	<time datetime="2019-09-21T08:00:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/21/正则化/">正则化</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/21/Tensorflow多层感知机/" class="archive-article-date">
-  	<time datetime="2019-09-21T07:52:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/21/Tensorflow多层感知机/">Tensorflow多层感知机</a>
-    </h1>
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://jjeejj.github.io/js/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "Pose Estimation Evaluation (Metric)",
+  owner: 'fryddup',
+  repo: 'fryddup.github.io',
+  oauth: {
+    client_id: 'f65ac3d7a0ea2dd8f667',
+    client_secret: '833817fca31394db62aefb85a4bc73fbd55708c4',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/21/Tensorflow自编码器/" class="archive-article-date">
-  	<time datetime="2019-09-21T07:48:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/21/Tensorflow自编码器/">Tensorflow自编码器</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/18/Softmax函数快速理解/" class="archive-article-date">
-  	<time datetime="2019-09-18T15:53:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/18/Softmax函数快速理解/">Softmax函数快速理解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/18/Structural-RNN-Deep-Learning-on-Spatio-Temporal-Graphs/" class="archive-article-date">
-  	<time datetime="2019-09-18T15:49:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/18/Structural-RNN-Deep-Learning-on-Spatio-Temporal-Graphs/">Structural-RNN: Deep Learning on Spatio-Temporal Graphs</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/07/Hexo-yilia主题添加相册功能/" class="archive-article-date">
-  	<time datetime="2019-09-07T02:18:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/07/Hexo-yilia主题添加相册功能/">Hexo yilia主题添加相册功能</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Function</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2019/">&laquo; Prev</a><a class="page-number" href="/archives/2019/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2019/page/3/">3</a><a class="extend next" rel="next" href="/archives/2019/page/3/">Next &raquo;</a>
-    </nav>
-  
-
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
 
           </div>
         </div>
@@ -592,8 +459,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

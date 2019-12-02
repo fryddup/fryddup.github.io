@@ -166,6 +166,132 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Pose-Estimation-Evalution-Metric" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/01/Pose-Estimation-Evalution-Metric/">Pose Estimation Evaluation (Metric)</a>
+    </h1>
+  
+
+
+        
+        <a href="/2019/12/01/Pose-Estimation-Evalution-Metric/" class="archive-article-date">
+  	<time datetime="2019-12-01T14:00:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-01</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">1.9k字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">8分</span>
+      </span>
+    </span>
+</div>
+           
+        
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>对于人体骨骼关键点算法来说，如何有效的衡量一个算法的好坏非常重要，他不像分类问题那样可以很容易采用一些常用指标，例如precise、error、F-score等进行计算。因为在衡量的过程中，我们无法有效的将预测结果与真实值一一对应，无法知道他们之前的对应关系，更加无法知道当前的某个预测结果是否出现了误检或者漏检的情况。因此，构建一个合适的人体关键点的度量指标很重要。</p>
+<p>本文目前涉及 <strong>oks、AP、mAP、PCK、PCKh、PDJ</strong>，后续碰到新的会继续补充</p>
+<hr>
+<h4 id="一、oks"><a href="#一、oks" class="headerlink" title="一、oks"></a>一、oks</h4><p>目前最为常用的就是<strong>OKS（Object Keypoint Similarity）</strong>指标，这个指标启发于目标检测中的IoU指标，目的就是为了计算真值和预测人体关键点的相似度。</p>
+<h4 id="OKS"><a href="#OKS" class="headerlink" title="OKS"></a>OKS</h4><p><img src="https://www.zhihu.com/equation?tex=OKS_%7Bp%7D+%3D+%5Cfrac%7B%5Csum_i+exp%5C%7B-d_%7Bpi%7D%5E2+%2F+2S_p%5E2+%5Csigma_i%5E2%5C%7D%5Cdelta%28v_%7Bpi%7D%3D1%29%7D%7B%5Csum_i+%5Cdelta%28v_%7Bpi%7D%3D1%29%7D" alt="[公式]"></p>
+<p>其中：</p>
+<p><img src="https://www.zhihu.com/equation?tex=p" alt="[公式]"> 表示groudtruth中，人的id</p>
+<p><img src="https://www.zhihu.com/equation?tex=i" alt="[公式]"> 表示key point的id</p>
+<p><img src="https://www.zhihu.com/equation?tex=d_%7Bpi%7D" alt="[公式]"> 表示groudtruth中每个人和预测的每个人的关键点的欧氏距离</p>
+<p><img src="https://www.zhihu.com/equation?tex=S_p" alt="[公式]"> 表示当前人的尺度因子，这个值等于此人在groundtruth中所占面积的平方根，即 <img src="https://www.zhihu.com/equation?tex=%5Csqrt%7B%28x_2-x_1%29%28y_2-y_1%29%7D" alt="[公式]"></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Csigma_i" alt="[公式]"> 表示第 i 个骨骼点的归一化因子，这个因此是通过对数据集中所有groundtruth计算的标准差而得到的，反映出当前骨骼点标注时候的标准差， <img src="https://www.zhihu.com/equation?tex=%5Csigma" alt="[公式]"> 越大表示这个点越难标注。</p>
+<p><img src="https://www.zhihu.com/equation?tex=v_%7Bpi%7D" alt="[公式]">代表第p个人的第 i 个关键点是否可见</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cdelta" alt="[公式]"> 用于将可见点选出来进行计算的函数</p>
+<h4 id="OKS矩阵"><a href="#OKS矩阵" class="headerlink" title="OKS矩阵"></a>OKS矩阵</h4><p>上面介绍的OKS是计算两个人之间的骨骼点相似度的，那一张图片中有很多的人时，该怎么计算呢？这时候就是构造一个OKS矩阵了。</p>
+<p>假设一张图中，一共有M个人（groudtruth中），现在算法预测出了N个人，那么我们就构造一个M×N的矩阵，矩阵中的位置（i,j）代表groudtruth中的第i个人和算法预测出的第j个人的OKS相似度，找到矩阵中每一行的最大值，作为对应于第i个人的OKS相似度值。</p>
+<h4 id="AP（Average-Precision）"><a href="#AP（Average-Precision）" class="headerlink" title="AP（Average Precision）"></a>AP（Average Precision）</h4><p>根据前面的OKS矩阵，已经知道了某一张图像的所有人（groundtruth中出现的）的OKS分数，现在测试集中有很多图像，每张图像又有一些人，此时该如何衡量整个算法的好坏的。这个时候就用到了AP的概念，AP就是给定一个t，如果当前的OKS大于t，那就说明当前这个人的骨骼点成功检测出来了，并且检测对了，如果小于t，则说明检测失败或者误检漏检等，因此对于所有的OKS，统计其中大于t的个数，并计算其占所有OKS的比值。即假设OKS一共有100个，其中大于阈值t的共有30个，那么AP值就是30/100=0.3.</p>
+<h4 id="mAP（mean-Average-Precision）"><a href="#mAP（mean-Average-Precision）" class="headerlink" title="mAP（mean Average Precision）"></a>mAP（mean Average Precision）</h4><p>顾名思义，AP的均值，具体计算方法就是给定不同的阈值t，计算不同阈值情况下对应的AP，然后求个均值就ok了。（<strong>与分类的 mAP 指标不同</strong>）</p>
+<hr>
+<h3 id="二、PCK-PCKh，PDJ"><a href="#二、PCK-PCKh，PDJ" class="headerlink" title="二、PCK,PCKh，PDJ"></a>二、PCK,PCKh，PDJ</h3><p><code>MPII 中是以头部长度(head length) 作为归一化参考，即 PCKh.</code></p>
+<p><code>FLIC 中是以躯干直径(torso size) 作为归一化参考.</code></p>
+<h4 id="1-PCK-Percentage-of-Correct-Keypoints"><a href="#1-PCK-Percentage-of-Correct-Keypoints" class="headerlink" title="1.PCK (Percentage of Correct Keypoints)"></a><strong>1.PCK (Percentage of Correct Keypoints)</strong></h4><p>关键点正确估计的比例<br>计算检测的关键点与其对应的groundtruth间的归一化距离小于设定阈值的比例(the percentage of detections that fall within a normalized distance of the ground truth).</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">function eval_pck(pred, joints, symmetry_joint_id, joint_name, name)</span><br><span class="line">% PCK 的实现</span><br><span class="line">% torso height: || left_shoulder - right hip ||</span><br><span class="line">% symmetry_joint_id: 具有对称关系的关键点 ID</span><br><span class="line">% joint_name: 具有对称关系的关键点名字</span><br><span class="line"></span><br><span class="line">range = <span class="number">0</span>:<span class="number">0.01</span>:<span class="number">0.1</span>;</span><br><span class="line">show_joint_ids = (symmetry_joint_id &gt;= <span class="number">1</span>:numel(symmetry_joint_id));</span><br><span class="line"></span><br><span class="line">% compute distance to ground truth joints</span><br><span class="line">dist = get_dist_pck(pred, joints(<span class="number">1</span>:<span class="number">2</span>,:,:));</span><br><span class="line"></span><br><span class="line">% 计算 PCK</span><br><span class="line">pck_all = compute_pck(dist,range);</span><br><span class="line">pck = pck_all(end, :);</span><br><span class="line">pck(<span class="number">1</span>:end<span class="number">-1</span>) = (pck(<span class="number">1</span>:end<span class="number">-1</span>) + pck(symmetry_joint_id))/<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">% 可视化结果</span><br><span class="line">pck = [pck(show_joint_ids) pck(end)];</span><br><span class="line">fprintf(<span class="string">'------------ PCK Evaluation: %s -------------\n'</span>, name);</span><br><span class="line">fprintf(<span class="string">'Parts '</span>); fprintf(<span class="string">'&amp; %s '</span>, joint_name&#123;:&#125;); fprintf(<span class="string">'&amp; Mean\n'</span>);</span><br><span class="line">fprintf(<span class="string">'PCK   '</span>); fprintf(<span class="string">'&amp; %.1f  '</span>, pck); fprintf(<span class="string">'\n'</span>);</span><br><span class="line"></span><br><span class="line">% -------------------------------------------------------------------------</span><br><span class="line">function dist = get_dist_pck(pred, gt)</span><br><span class="line"><span class="keyword">assert</span>(size(pred,<span class="number">1</span>) == size(gt,<span class="number">1</span>) &amp;&amp; size(pred,<span class="number">2</span>) == size(gt,<span class="number">2</span>) &amp;&amp; size(pred,<span class="number">3</span>) == size(gt,<span class="number">3</span>));</span><br><span class="line"></span><br><span class="line">dist = nan(<span class="number">1</span>,size(pred, <span class="number">2</span>), size(pred,<span class="number">3</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> imgidx = <span class="number">1</span>:size(pred,<span class="number">3</span>)</span><br><span class="line">  % torso diameter 躯干直径</span><br><span class="line">  <span class="keyword">if</span> size(gt, <span class="number">2</span>) == <span class="number">14</span></span><br><span class="line">    refDist = norm(gt(:,<span class="number">10</span>,imgidx) - gt(:,<span class="number">3</span>,imgidx));</span><br><span class="line">  elseif size(gt, <span class="number">2</span>) == <span class="number">10</span> % <span class="number">10</span> joints FLIC</span><br><span class="line">    refDist = norm(gt(:,<span class="number">7</span>,imgidx) - gt(:,<span class="number">6</span>,imgidx));</span><br><span class="line">  elseif size(gt, <span class="number">2</span>) == <span class="number">11</span> % <span class="number">11</span> joints FLIC</span><br><span class="line">    refDist = norm(gt(:,<span class="number">4</span>,imgidx) - gt(:,<span class="number">11</span>,imgidx));</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    error(<span class="string">'Number of joints should be 14 or 10 or 11'</span>);</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">  % 预测的关键点与 gt 关键点的距离</span><br><span class="line">  dist(<span class="number">1</span>,:,imgidx) = sqrt(sum((pred(:,:,imgidx) - gt(:,:,imgidx)).^<span class="number">2</span>,<span class="number">1</span>))./refDist;</span><br><span class="line"></span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% -------------------------------------------------------------------------</span><br><span class="line">function pck = compute_pck(dist,range)</span><br><span class="line">pck = zeros(numel(range),size(dist,<span class="number">2</span>)+<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> jidx = <span class="number">1</span>:size(dist,<span class="number">2</span>)</span><br><span class="line">  % 计算每个设定阈值的 PCK</span><br><span class="line">  <span class="keyword">for</span> k = <span class="number">1</span>:numel(range)</span><br><span class="line">    pck(k,jidx) = <span class="number">100</span>*mean(squeeze(dist(<span class="number">1</span>,jidx,:)) &lt;= range(k));</span><br><span class="line">  end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% 计算平均 PCK</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numel(range)</span><br><span class="line">  pck(k,end) = <span class="number">100</span>*mean(reshape(squeeze(dist(<span class="number">1</span>,:,:)),size(dist,<span class="number">2</span>)*size(dist,<span class="number">3</span>),<span class="number">1</span>) &lt;= range(k));</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-1-PCKh"><a href="#1-1-PCKh" class="headerlink" title="1.1 PCKh"></a>1.1 PCKh</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">% 计算 head 的长度</span><br><span class="line">headSize = getHeadSizeAll(annolist_test_flat(single_person_test_flat == <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">% 计算预测的关键点与 gt 关键点间的归一化距离</span><br><span class="line">dist = getDistPCKh(pred,gt,headSize);</span><br><span class="line"></span><br><span class="line">% 计算 PCKh</span><br><span class="line">pck = computePCK(dist,range);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function headSizeAll = getHeadSizeAll(annolist)</span><br><span class="line">headSizeAll = nan(length(annolist),<span class="number">1</span>);</span><br><span class="line"><span class="keyword">for</span> imgidx = <span class="number">1</span>:length(annolist)</span><br><span class="line">    rect = annolist(imgidx).annorect;</span><br><span class="line">    headSizeAll(imgidx) =  util_get_head_size(rect);</span><br><span class="line">end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function headSize = util_get_head_size(rect)</span><br><span class="line">SC_BIAS = <span class="number">0.6</span>; % <span class="number">0.8</span>*<span class="number">0.75</span></span><br><span class="line">headSize = SC_BIAS*norm([rect.x2 rect.y2] - [rect.x1 rect.y1]); <span class="comment"># head 的两个点间的距离</span></span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function dist = getDistPCKh(pred,gt,refDist)</span><br><span class="line"><span class="keyword">assert</span>(size(pred,<span class="number">1</span>) == size(gt,<span class="number">1</span>) &amp;&amp; size(pred,<span class="number">2</span>) == size(gt,<span class="number">2</span>) &amp;&amp; size(pred,<span class="number">3</span>) == size(gt,<span class="number">3</span>));</span><br><span class="line"><span class="keyword">assert</span>(size(refDist,<span class="number">1</span>) == size(gt,<span class="number">3</span>));</span><br><span class="line"></span><br><span class="line">dist = nan(<span class="number">1</span>,size(pred,<span class="number">2</span>),size(pred,<span class="number">3</span>));</span><br><span class="line"><span class="keyword">for</span> imgidx = <span class="number">1</span>:size(pred,<span class="number">3</span>)</span><br><span class="line">    % pred joints 与 gt joints 的归一化距离</span><br><span class="line">    dist(<span class="number">1</span>,:,imgidx) = sqrt(sum((pred(:,:,imgidx) - gt(:,:,imgidx)).^<span class="number">2</span>,<span class="number">1</span>))./refDist(imgidx);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">function pck = computePCK(dist,range)</span><br><span class="line">pck = zeros(numel(range),size(dist,<span class="number">2</span>)+<span class="number">2</span>);</span><br><span class="line"><span class="keyword">for</span> jidx = <span class="number">1</span>:size(dist,<span class="number">2</span>)</span><br><span class="line">    % 计算各阈值的 PCK</span><br><span class="line">    <span class="keyword">for</span> k = <span class="number">1</span>:numel(range)</span><br><span class="line">        d = squeeze(dist(<span class="number">1</span>,jidx,:));</span><br><span class="line">        % dist <span class="keyword">is</span> NaN <span class="keyword">if</span> gt <span class="keyword">is</span> missing; ignore dist <span class="keyword">in</span> this case</span><br><span class="line">        pck(k,jidx) = <span class="number">100</span>*mean(d(~isnan(d))&lt;=range(k));</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% 计算上半身关键点的平均 PCK</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numel(range)</span><br><span class="line">    d = reshape(squeeze(dist(<span class="number">1</span>,<span class="number">7</span>:<span class="number">12</span>,:)),<span class="number">6</span>*size(dist,<span class="number">3</span>),<span class="number">1</span>);</span><br><span class="line">    pck(k,end<span class="number">-1</span>) = <span class="number">100</span>*mean(d(~isnan(d))&lt;=range(k));</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% 计算全身关键点的 PCK</span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span>:numel(range)</span><br><span class="line">    d = reshape(squeeze(dist(<span class="number">1</span>,:,:)),size(dist,<span class="number">2</span>)*size(dist,<span class="number">3</span>),<span class="number">1</span>);</span><br><span class="line">    pck(k,end) = <span class="number">100</span>*mean(d(~isnan(d))&lt;=range(k));</span><br><span class="line">end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-PDJ-Percentage-of-Detected-Joints"><a href="#2-PDJ-Percentage-of-Detected-Joints" class="headerlink" title="2.PDJ - Percentage of Detected Joints"></a>2.PDJ - Percentage of Detected Joints</h4><p>检测到的关键点比例.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">function [accs, range] = eval_pdj(pred, joints, reference_joints_pair, symmetry_joint_id, joint_name, eval_name)</span><br><span class="line">% 设定选定的参考点：reference_joints_pair = [<span class="number">3</span>, <span class="number">10</span>];     % 右肩点到左臀点</span><br><span class="line">% symmetry_joint_id: 具有对称关系的关键点 ID</span><br><span class="line"><span class="keyword">assert</span>(numel(reference_joints_pair) == <span class="number">2</span>);</span><br><span class="line">show_joint_ids = find(symmetry_joint_id &gt;= <span class="number">1</span>:numel(symmetry_joint_id)); </span><br><span class="line">range = <span class="number">0</span>:<span class="number">0.01</span>:<span class="number">0.5</span>;</span><br><span class="line"></span><br><span class="line">num = size(pred, <span class="number">3</span>);</span><br><span class="line"><span class="keyword">assert</span>(num &gt;= <span class="number">1</span>);</span><br><span class="line">% the number of joints</span><br><span class="line">joint_n = size(joints, <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">scale = zeros(<span class="number">1</span>, num);</span><br><span class="line"><span class="keyword">for</span> ii = <span class="number">1</span>:num</span><br><span class="line">  scale(ii) = norm( joints(:,reference_joints_pair(<span class="number">1</span>), ii) - joints(:,reference_joints_pair(<span class="number">2</span>), ii) );</span><br><span class="line">  %scale(ii) = <span class="number">100</span>;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">dists = zeros(num, joint_n);</span><br><span class="line"><span class="keyword">for</span> ii = <span class="number">1</span>:num</span><br><span class="line">  dists(ii,:) = sqrt(sum( (pred(:, :, ii) - joints(:,:,ii)).^<span class="number">2</span>, <span class="number">1</span> ));</span><br><span class="line">  dists(ii,:) = dists(ii,:) / scale(ii);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">accs = zeros(numel(range), joint_n);</span><br><span class="line"><span class="keyword">for</span> ii = <span class="number">1</span>:numel(range)</span><br><span class="line">  accs(ii,:) = mean(dists &lt;= range(ii),<span class="number">1</span>);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">accs = (accs + accs(:,symmetry_joint_id)) / <span class="number">2</span>;</span><br><span class="line">accs = accs(:, show_joint_ids);</span><br><span class="line">% <span class="keyword">print</span></span><br><span class="line">fprintf(<span class="string">'-------------- PDJ Evaluation ---------------\n'</span>)</span><br><span class="line">fprintf(<span class="string">'Joints    '</span>); fprintf(<span class="string">'&amp; %s '</span>, joint_name&#123;:&#125;); fprintf(<span class="string">'\n'</span>);</span><br><span class="line">sample_pdj_thresholds = [<span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0.3</span>, <span class="number">0.4</span>];</span><br><span class="line"><span class="keyword">for</span> ii = <span class="number">1</span>:length(sample_pdj_thresholds)</span><br><span class="line">  t = sample_pdj_thresholds(ii);</span><br><span class="line">  idx = (range == t);</span><br><span class="line">  fprintf(<span class="string">'PDJ@%.2f  '</span>, t); fprintf(<span class="string">'&amp; %.1f '</span>, accs(idx,:)*<span class="number">100</span>); fprintf(<span class="string">'\n'</span>);</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">% plot</span><br><span class="line">line_width = <span class="number">2</span>;</span><br><span class="line">p_color = &#123;<span class="string">'g'</span>,<span class="string">'y'</span>,<span class="string">'b'</span>,<span class="string">'r'</span>,<span class="string">'c'</span>,<span class="string">'k'</span>,<span class="string">'m'</span>&#125;;</span><br><span class="line"></span><br><span class="line">% visualize</span><br><span class="line">figure; hold on; grid on;</span><br><span class="line"><span class="keyword">for</span> ii = <span class="number">1</span>:numel(show_joint_ids)</span><br><span class="line">  plot(range, accs(:, ii), p_color&#123;mod(ii, numel(p_color))+<span class="number">1</span>&#125;, <span class="string">'linewidth'</span>, line_width);</span><br><span class="line">end</span><br><span class="line">leg_str = cell(numel(show_joint_ids), <span class="number">1</span>);</span><br><span class="line"><span class="keyword">for</span> ii = <span class="number">1</span>:numel(show_joint_ids)</span><br><span class="line">  leg_str&#123;ii&#125; = sprintf(<span class="string">'%s'</span>, joint_name&#123;ii&#125;);</span><br><span class="line">end</span><br><span class="line">h_leg = legend(leg_str, <span class="string">'FontSize'</span>, <span class="number">12</span>);</span><br><span class="line">set(h_leg, <span class="string">'location'</span>, <span class="string">'southeast'</span>, <span class="string">'linewidth'</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">axis([range(<span class="number">1</span>),range(end), <span class="number">0</span>, <span class="number">1</span>]);</span><br><span class="line">set(gca,<span class="string">'ytick'</span>, <span class="number">0</span>:<span class="number">0.1</span>:<span class="number">1</span>);</span><br><span class="line">set(gca, <span class="string">'linewidth'</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">% --- titles</span><br><span class="line">xlabel(<span class="string">'Normalized  Threshold'</span>) % x-axis label</span><br><span class="line">ylabel(<span class="string">'Detection Rate'</span>) % y-axis label</span><br><span class="line"></span><br><span class="line">title([eval_name <span class="string">' PDJ'</span>]);</span><br><span class="line">hold off;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">论文/Paper</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/01/Pose-Estimation-Evalution-Metric/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+
+  
     <article id="post-Convolutional-Pose-Machines" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1517,132 +1643,9 @@
 </span>
 
   
-    <article id="post-Python模块封装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/11/Python模块封装/">Python模块封装</a>
-    </h1>
-  
-
-
-        
-        <a href="/2019/10/11/Python模块封装/" class="archive-article-date">
-  	<time datetime="2019-10-11T12:29:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
-</a>
-        
-          <div style="margin-top:10px;">
-    <span class="post-time">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-keyboard-o"></i>
-        <span class="post-meta-item-text">  字数统计: </span>
-        <span class="post-count">906字</span>
-      </span>
-    </span>
-
-    <span class="post-time">
-      &nbsp; | &nbsp;
-      <span class="post-meta-item-icon">
-        <i class="fa fa-hourglass-half"></i>
-        <span class="post-meta-item-text">  阅读时长: </span>
-        <span class="post-count">3分</span>
-      </span>
-    </span>
-</div>
-           
-        
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Python模块与包"><a href="#Python模块与包" class="headerlink" title="Python模块与包"></a>Python模块与包</h3><hr>
-<p>在计算机程序的开发过程中，随着程序代码越写越多，在一个文件里代码就会越来越长，越来越不容易维护。</p>
-<p>为了编写可维护的代码，我们把很多函数分组，分别放到不同的文件里，这样，每个文件包含的代码就相对较少，很多编程语言都采用这种组织代码的方式。在Python中，一个.py文件就称之为一个模块（Module）。</p>
-<p>使用模块有什么好处？</p>
-<p>最大的好处是大大提高了代码的可维护性。其次，编写代码不必从零开始。当一个模块编写完毕，就可以被其他地方引用。我们在编写程序的时候，也经常引用其他模块，包括Python内置的模块和来自第三方的模块。</p>
-<p>使用模块还可以避免函数名和变量名冲突。相同名字的函数和变量完全可以分别存在不同的模块中，因此，我们自己在编写模块时，不必考虑名字会与其他模块冲突。但是也要注意，尽量不要与内置函数名字冲突。点<a href="http://docs.python.org/3/library/functions.html" target="_blank" rel="noopener">这里</a>查看Python的所有内置函数。</p>
-<p>你也许还想到，如果不同的人编写的模块名相同怎么办？为了避免模块名冲突，Python又引入了按目录来组织模块的方法，称为包（Package）。</p>
-<p>举个例子，一个<code>abc.py</code>的文件就是一个名字叫<code>abc</code>的模块，一个<code>xyz.py</code>的文件就是一个名字叫<code>xyz</code>的模块。</p>
-<p>现在，假设我们的<code>abc</code>和<code>xyz</code>这两个模块名字与其他模块冲突了，于是我们可以通过包来组织模块，避免冲突。方法是选择一个顶层包名，比如<code>mycompany</code>，按照如下目录存放：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mycompany</span><br><span class="line">├─ __init__.py</span><br><span class="line">├─ abc.py</span><br><span class="line">└─ xyz.py</span><br></pre></td></tr></table></figure>
-
-<p>引入了包以后，只要顶层的包名不与别人冲突，那所有模块都不会与别人冲突。现在，<code>abc.py</code>模块的名字就变成了<code>mycompany.abc</code>，类似的，<code>xyz.py</code>的模块名变成了<code>mycompany.xyz</code>。</p>
-<p>请注意，每一个包目录下面都会有一个<code>__init__.py</code>的文件，这个文件是必须存在的，否则，Python就把这个目录当成普通目录，而不是一个包。<code>__init__.py</code>可以是空文件，也可以有Python代码，因为<code>__init__.py</code>本身就是一个模块，而它的模块名就是<code>mycompany</code>。</p>
-<p>类似的，可以有多级目录，组成多级层次的包结构。比如如下的目录结构：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mycompany</span><br><span class="line"> ├─ web</span><br><span class="line"> │  ├─ __init__.py</span><br><span class="line"> │  ├─ utils.py</span><br><span class="line"> │  └─ www.py</span><br><span class="line"> ├─ __init__.py</span><br><span class="line"> ├─ abc.py</span><br><span class="line"> └─ utils.py</span><br></pre></td></tr></table></figure>
-
-<p>文件<code>www.py</code>的模块名就是<code>mycompany.web.www</code>，两个文件<code>utils.py</code>的模块名分别是<code>mycompany.utils</code>和<code>mycompany.web.utils</code>。</p>
-<p> 自己创建模块时要注意命名，不能和Python自带的模块名称冲突。例如，系统自带了sys模块，自己的模块就不可命名为<code>sys.py</code>，否则将无法导入系统自带的sys模块。</p>
-<p><code>mycompany.web</code>也是一个模块，请指出该模块对应的.py文件。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>模块是一组Python代码的集合，可以使用其他模块，也可以被其他模块使用。</p>
-<p>创建自己的模块时，要注意：</p>
-<ul>
-<li>模块名要遵循Python变量命名规范，不要使用中文、特殊字符；</li>
-<li>模块名不要和系统模块名冲突，最好先查看系统是否已存在该模块，检查方法是在Python交互环境执行<code>import abc</code>，若成功则说明系统存在此模块。</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Python编程学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/11/Python模块封装/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-<span id="busuanzi_container_page_pv">
-   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
-</span>
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
