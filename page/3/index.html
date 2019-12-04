@@ -166,6 +166,168 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Hexo-yilia主题添加相册功能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/07/Hexo-yilia主题添加相册功能/">Hexo yilia主题添加相册功能</a>
+    </h1>
+  
+
+
+        
+        <a href="/2019/09/07/Hexo-yilia主题添加相册功能/" class="archive-article-date">
+  	<time datetime="2019-09-07T02:18:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-07</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">585字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">2分</span>
+      </span>
+    </span>
+</div>
+           
+        
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Hexo-yilia-添加相册（很多很多坑）"><a href="#Hexo-yilia-添加相册（很多很多坑）" class="headerlink" title="Hexo yilia 添加相册（很多很多坑）"></a>Hexo yilia 添加相册（很多很多坑）</h3><meta name="referrer" content="no-referrer">
+一步步配置hexo相册是真的累，再此记录一下踩过的坑
+
+
+
+<hr>
+<p>最后再总结流程，直接过程走起</p>
+<hr>
+<h4 id="1-新建github仓库，在里面存储图片，这里主要要注意本地文件上传到github的流程"><a href="#1-新建github仓库，在里面存储图片，这里主要要注意本地文件上传到github的流程" class="headerlink" title="1.新建github仓库，在里面存储图片，这里主要要注意本地文件上传到github的流程"></a>1.新建github仓库，在里面存储图片，这里主要要注意本地文件上传到github的流程</h4><ul>
+<li>新建仓库记得勾选图片所示的用 ReadMe.md文件初始化仓库，免去后面一系列麻烦</li>
+</ul>
+<img src="/2019/09/07/Hexo-yilia主题添加相册功能/1.png" title="创建仓库">
+
+<ul>
+<li>下载仓库到本地，在本地先开始操作</li>
+</ul>
+<img src="/2019/09/07/Hexo-yilia主题添加相册功能/2.png" title="这是克隆到本地的仓库文件">
+
+<ul>
+<li><strong>本地文件上传到github（无论何时推送，请严格按照以下步骤不会出错）</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//初始化</span><br><span class="line">git init</span><br><span class="line">//添加所有文件</span><br><span class="line">git add .</span><br><span class="line">//文件提交到仓库</span><br><span class="line">git commit -m &apos;decriptions&apos;</span><br><span class="line">//删除关联</span><br><span class="line">git remote rm origin</span><br><span class="line">//关联远程账户（主题用http地址，ssl需要密钥）</span><br><span class="line">git remote add origin https://github.com/fryddup/BackUp.github.io.git</span><br><span class="line">//同步远程仓库</span><br><span class="line">git pull --rebase origin master</span><br><span class="line">//把本地内容推送到远程库</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="2-设置本地博客"><a href="#2-设置本地博客" class="headerlink" title="2.设置本地博客"></a>2.设置本地博客</h4><ul>
+<li><code>BLOG\source</code>目录下创建一个<code>photos</code>目录</li>
+<li>配置 <code>themes/yilia/_config.yml</code>文件，添加相册     <code>相册: /photos/</code></li>
+</ul>
+<hr>
+<h4 id="3-生成html文件"><a href="#3-生成html文件" class="headerlink" title="3.生成html文件"></a>3.生成html文件</h4><p>克隆 <a href="https://github.com/lawlite19/Blog-Back-Up/tree/master/blog_photos_copy" target="_blank" rel="noopener">https://github.com/lawlite19/Blog-Back-Up/tree/master/blog_photos_copy</a> 文件到photos目录下面，修改 <code>ins.js</code> 文件，主要修改render为自己的目录</p>
+<img src="/2019/09/07/Hexo-yilia主题添加相册功能/3.png" title="修改的部分">
+
+
+
+<hr>
+<h4 id="4-图片处理生成-data-json文件"><a href="#4-图片处理生成-data-json文件" class="headerlink" title="4.图片处理生成 data.json文件"></a>4.图片处理生成 <code>data.json</code>文件</h4><ul>
+<li>下载python脚本 <a href="https://github.com/lawlite19/Blog-Back-Up" target="_blank" rel="noopener">https://github.com/lawlite19/Blog-Back-Up</a></li>
+<li>主要下载 <code>tool.py</code>  <code>ImageProcess.py</code>  两个文件，修改一下 <code>tool.py</code>文件，主要修改data.json 文件生成目录</li>
+</ul>
+<img src="/2019/09/07/Hexo-yilia主题添加相册功能/4.png" title="修改python文件">
+
+<ul>
+<li>执行python文件，不会执行的话百度一下</li>
+</ul>
+<h5 id="注意：把-min-photos-和-photos-文件夹图片文件换一下位置，否则会出现拉伸、显示不全等bug"><a href="#注意：把-min-photos-和-photos-文件夹图片文件换一下位置，否则会出现拉伸、显示不全等bug" class="headerlink" title="注意：把 min_photos 和 photos 文件夹图片文件换一下位置，否则会出现拉伸、显示不全等bug"></a>注意：把 min_photos 和 photos 文件夹图片文件换一下位置，否则会出现拉伸、显示不全等bug</h5><ul>
+<li>本地文件推送到github，严格按照之前的步骤</li>
+</ul>
+<hr>
+<h4 id="5-继续配置原博客"><a href="#5-继续配置原博客" class="headerlink" title="5.继续配置原博客"></a>5.继续配置原博客</h4><p>下载<code>empty.png</code></p>
+<p><a href="https://raw.githubusercontent.com/wardseptember/BlogPicture/master/assets/img/empty.png" target="_blank" rel="noopener">https://raw.githubusercontent.com/wardseptember/BlogPicture/master/assets/img/empty.png</a></p>
+<p>放在 assets/img文件夹下</p>
+<p>至此配置完成</p>
+<hr>
+<h4 id="6-调试运行"><a href="#6-调试运行" class="headerlink" title="6.调试运行"></a>6.调试运行</h4><p><code>hexo clean</code></p>
+<p><code>hexo g</code></p>
+<p><code>hexo s</code></p>
+<p><strong>开始本地调试会发现没问题</strong></p>
+<p><strong>But—–</strong></p>
+<p><code>hexo d</code> 推送到云端，刷新之后会发现相册 /photos 404，找不到页面</p>
+<p>此时在自己博客github工程目录photos文件夹下<code>index.html</code>中head头文件添加</p>
+<p><code>&lt;link rel=&quot;shortcut icon&quot; href=&quot;#&quot;&gt;</code></p>
+<p>此时可以完美在云端显示相册</p>
+<hr>
+<p>以上即是此次配置相册所采的坑，记录一下</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Function</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/07/Hexo-yilia主题添加相册功能/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+
+  
     <article id="post-MyBlog-Hexo快速搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -416,10 +578,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Function</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">DeepLearning</a>
               </li>
              
               <li class="article-tag-list-item">
