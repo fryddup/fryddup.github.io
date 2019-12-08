@@ -166,6 +166,138 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Python面向对象编程程基础篇-访问限制-封装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/11/Python面向对象编程程基础篇-访问限制-封装/">Python面向对象编程程基础篇-访问限制(封装)</a>
+    </h1>
+  
+
+
+        
+        <a href="/2019/10/11/Python面向对象编程程基础篇-访问限制-封装/" class="archive-article-date">
+  	<time datetime="2019-10-11T15:09:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">926字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">3分</span>
+      </span>
+    </span>
+</div>
+           
+        
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Python对象访问限制"><a href="#Python对象访问限制" class="headerlink" title="Python对象访问限制"></a>Python对象访问限制</h3><hr>
+<p><strong>在Class内部，可以有属性和方法，而外部代码可以通过直接调用实例变量的方法来操作数据，这样，就隐藏了内部的复杂逻辑。</strong></p>
+<p>但是，从前面Student类的定义来看，外部代码还是可以自由地修改一个实例的<code>name</code>、<code>score</code>属性：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>bart = Student(<span class="string">'Bart Simpson'</span>, <span class="number">59</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bart.score</span><br><span class="line"><span class="number">59</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bart.score = <span class="number">99</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bart.score</span><br><span class="line"><span class="number">99</span></span><br></pre></td></tr></table></figure>
+
+<p>如果要让内部属性不被外部访问，可以把属性的名称前加上两个下划线<code>__</code>，在Python中，实例的变量名如果以<code>__</code>开头，就变成了一个私有变量（private），只有内部可以访问，外部不能访问，所以，我们把Student类改一改：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, score)</span>:</span></span><br><span class="line">        self.__name = name</span><br><span class="line">        self.__score = score</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">print_score</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'%s: %s'</span> % (self.__name, self.__score))</span><br></pre></td></tr></table></figure>
+
+<p>改完后，对于外部代码来说，没什么变动，但是已经无法从外部访问<code>实例变量.__name</code>和<code>实例变量.__score</code>了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>bart = Student(<span class="string">'Bart Simpson'</span>, <span class="number">59</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bart.__name</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">AttributeError: <span class="string">'Student'</span> object has no attribute <span class="string">'__name'</span></span><br></pre></td></tr></table></figure>
+
+<p>这样就确保了外部代码不能随意修改对象内部的状态，这样通过访问限制的保护，代码更加健壮。</p>
+<p>但是如果外部代码要获取name和score怎么办？可以给Student类增加<code>get_name</code>和<code>get_score</code>这样的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_name</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_score</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.__score</span><br></pre></td></tr></table></figure>
+
+<p>如果又要允许外部代码修改score怎么办？可以再给Student类增加<code>set_score</code>方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_score</span><span class="params">(self, score)</span>:</span></span><br><span class="line">        self.__score = score</span><br></pre></td></tr></table></figure>
+
+<p>你也许会问，原先那种直接通过<code>bart.score = 99</code>也可以修改啊，为什么要定义一个方法大费周折？因为在方法中，可以对参数做检查，避免传入无效的参数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_score</span><span class="params">(self, score)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="number">0</span> &lt;= score &lt;= <span class="number">100</span>:</span><br><span class="line">            self.__score = score</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'bad score'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，在Python中，变量名类似<code>__xxx__</code>的，也就是以双下划线开头，并且以双下划线结尾的，是特殊变量，<strong>特殊变量是可以直接访问的</strong>，不是private变量，所以，不能用<code>__name__</code>、<code>__score__</code>这样的变量名。</p>
+<p>有些时候，你会看到以一个下划线开头的实例变量名，比如<code>_name</code>，这样的实例变量外部是可以访问的，但是，按照约定俗成的规定，当你看到这样的变量时，意思就是，“虽然我可以被访问，但是，请把我视为私有变量，不要随意访问”。</p>
+<p>双下划线开头的实例变量是不是一定不能从外部访问呢？其实也不是。不能直接访问<code>__name</code>是因为Python解释器对外把<code>__name</code>变量改成了<code>_Student__name</code>，所以，仍然可以通过<code>_Student__name</code>来访问<code>__name</code>变量：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>bart._Student__name</span><br><span class="line"><span class="string">'Bart Simpson'</span></span><br></pre></td></tr></table></figure>
+
+<p>但是强烈建议你不要这么干，因为不同版本的Python解释器可能会把<code>__name</code>改成不同的变量名。</p>
+<p>总的来说就是，Python本身没有任何机制阻止你干坏事，一切全靠自觉。</p>
+<p>最后注意下面的这种<em>错误写法</em>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>bart = Student(<span class="string">'Bart Simpson'</span>, <span class="number">59</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bart.get_name()</span><br><span class="line"><span class="string">'Bart Simpson'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bart.__name = <span class="string">'New Name'</span> <span class="comment"># 设置__name变量！</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bart.__name</span><br><span class="line"><span class="string">'New Name'</span></span><br></pre></td></tr></table></figure>
+
+<p>表面上看，外部代码“成功”地设置了<code>__name</code>变量，但实际上这个<code>__name</code>变量和class内部的<code>__name</code>变量<em>不是</em>一个变量！内部的<code>__name</code>变量已经被Python解释器自动改成了<code>_Student__name</code>，而外部代码给<code>bart</code>新增了一个<code>__name</code>变量。不信试试：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>bart.get_name() <span class="comment"># get_name()内部返回self.__name</span></span><br><span class="line"><span class="string">'Bart Simpson'</span></span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Python编程学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/11/Python面向对象编程程基础篇-访问限制-封装/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+
+  
     <article id="post-Python面向对象编程程基础篇-类和对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1264,148 +1396,6 @@
 </span>
 
   
-    <article id="post-Structural-RNN-Deep-Learning-on-Spatio-Temporal-Graphs" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/18/Structural-RNN-Deep-Learning-on-Spatio-Temporal-Graphs/">Structural-RNN: Deep Learning on Spatio-Temporal Graphs</a>
-    </h1>
-  
-
-
-        
-        <a href="/2019/09/18/Structural-RNN-Deep-Learning-on-Spatio-Temporal-Graphs/" class="archive-article-date">
-  	<time datetime="2019-09-18T15:49:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-18</time>
-</a>
-        
-          <div style="margin-top:10px;">
-    <span class="post-time">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-keyboard-o"></i>
-        <span class="post-meta-item-text">  字数统计: </span>
-        <span class="post-count">1.1k字</span>
-      </span>
-    </span>
-
-    <span class="post-time">
-      &nbsp; | &nbsp;
-      <span class="post-meta-item-icon">
-        <i class="fa fa-hourglass-half"></i>
-        <span class="post-meta-item-text">  阅读时长: </span>
-        <span class="post-count">3分</span>
-      </span>
-    </span>
-</div>
-           
-        
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Structural-RNN-Deep-Learning-on-Spatio-Temporal-Graphs"><a href="#Structural-RNN-Deep-Learning-on-Spatio-Temporal-Graphs" class="headerlink" title="Structural-RNN: Deep Learning on Spatio-Temporal Graphs"></a>Structural-RNN: Deep Learning on Spatio-Temporal Graphs</h3><hr>
-<ul>
-<li>RNN</li>
-<li>Spatio-Temporal Graphs</li>
-</ul>
-<p><strong>Abstract：</strong> </p>
-<p>RNN序列建模 </p>
-<p>深层递归神经网络结构虽然对序列的建模能力很强，但缺乏直观的高层时空结构。时空图是在解决现实问题时加强这种直观高层次（结构）的很受欢迎的工具。 也就是说，计算机视觉中的许多问题本身具有潜在的高级结构，所以我们思考从这方面进行提高。本文提出了一种将高阶时空图的能力与递归神经网络（rnns）序列学习成功率相结合的方法。我们开发了一种可扩展的方法，用于将任意时空图投射成一个前馈、差异化高、可同步训练的丰富的rnn混合图。所提出的方法是通用的并且是有原则的，因为它可以用于通过采用一组明确定义的步骤来变换任何时空图。对所提出的方法在从人体运动建模到对象交互等一系列不同问题上的评估表明，该方法比最新技术有了很大的改进。我们期望这种方法通过高级时空图和回归神经网络赋予问题解决新方法。</p>
-<ul>
-<li>modeling sequences</li>
-<li>high-level spatio-temporal</li>
-</ul>
-<hr>
-<h3 id="论文分析"><a href="#论文分析" class="headerlink" title="论文分析"></a>论文分析</h3><ol>
-<li><strong>动机：</strong>RNN存在缺乏直观的高阶时空架构的问题，而计算机视觉领域（CV）很多问题都存在固有的高阶时空架构，可以加以利用</li>
-<li><strong>研究问题：</strong>输入任意一张时空图（ST图），可以转换为丰富的 前馈性、可扩展、差异性大、可同步训练的RNN混合物</li>
-<li><strong>现有方法存在的不足：</strong> 现有方法很多都是针对具体的某个问题，不具有通用性；</li>
-<li><strong>现有方法表现差的本质原因：</strong>未考虑时空问题，忽略时空推理</li>
-<li><strong>我们的方法：</strong>将高级时空图与RNN的序列建模成功相结合。在高阶步骤中，给定一个任意的ST-图，我们先推出它的时间分解成一组因素组件。因素共同确定一个决定，并从ST-图形的两边和节点所来源的独立组件。然后语义化因子部件打组表示使用一个RNN，这形成所需的RNN混合物</li>
-</ol>
-<hr>
-<h5 id="一、神经网络算法（简单区别，感念，存在的缺陷）"><a href="#一、神经网络算法（简单区别，感念，存在的缺陷）" class="headerlink" title="一、神经网络算法（简单区别，感念，存在的缺陷）"></a>一、神经网络算法（简单区别，感念，存在的缺陷）</h5><ul>
-<li><strong>NN</strong>: (BP算法、多层感知机)  是一种按照误差逆向传播算法训练的多层前馈神经网络。（已经学习）输入层，隐藏层    </li>
-</ul>
-
-
-<p>forward.py 搭建神经网络模型   </p>
-<p>backward.py 训练优化参数降低误差  </p>
-<img src="/2019/09/18/Structural-RNN-Deep-Learning-on-Spatio-Temporal-Graphs/nn.jpg" title="This is an example image">
-
-<ul>
-<li><strong>CNN</strong>（Convolutional Neural Network）：卷积神经网络，借助卷积核 （kernel ）提取特征后，送入全连接网络。</li>
-</ul>
-<p><strong>全连接的NN、DNN模型下，参数数量巨大，不仅容易过拟合，而且极容易陷入局部最优。</strong>在实际应用中，会先对原始图像进行特征提取，把提取到的特征喂给全连接网络，再让全连接网络计算出分类评估值。</p>
-<p>卷积神经网络可以认为由两部分组成，一部分是对输入图片进行<strong>特征提取</strong>，另一部分就是<strong>全连接网络</strong>，只不过喂入全连接网络的不再是原始图片，而是经过若干次卷积、激活和池化后的特征信息</p>
-<img src="/2019/09/18/Structural-RNN-Deep-Learning-on-Spatio-Temporal-Graphs/cnn.jpg" title="This is an example image">
-
-
-
-<ul>
-<li><strong>RNN</strong>:（循环神经网络）</li>
-</ul>
-<p>全连接的DNN还存在着另一个问题——<strong>无法对时间序列上的变化进行建模</strong>。然而，样本出现的时间顺序对于自然语言处理、语音识别、手写体识别等应用非常重要。对了适应这种需求，就出现了另一种神经网络结构——循环神经网络RNN。</p>
-<p>RNN可以看成一个在时间上传递的神经网络，它的深度是时间的长度！正如我们上面所说，“梯度消失”现象又要出现了，只不过这次发生在时间轴上。<strong>为了解决时间上的梯度消失，机器学习领域发展出了长短时记忆单元 LSTM，通过门的开关实现时间上记忆功能，并防止梯度消失。</strong></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/18/Structural-RNN-Deep-Learning-on-Spatio-Temporal-Graphs/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-<span id="busuanzi_container_page_pv">
-   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
-</span>
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1531,6 +1521,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Python编程学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
               </li>
             
             <div class="clearfix"></div>
