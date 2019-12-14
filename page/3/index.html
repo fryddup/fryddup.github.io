@@ -166,6 +166,119 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Softmax函数快速理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/18/Softmax函数快速理解/">Softmax函数快速理解</a>
+    </h1>
+  
+
+
+        
+        <a href="/2019/09/18/Softmax函数快速理解/" class="archive-article-date">
+  	<time datetime="2019-09-18T15:53:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-18</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">215字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">1分</span>
+      </span>
+    </span>
+</div>
+           
+        
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="理解softmax函数（超简单）"><a href="#理解softmax函数（超简单）" class="headerlink" title="理解softmax函数（超简单）"></a>理解softmax函数（超简单）</h3><hr>
+<p><strong>softmax函数一般用于做多分类函数。</strong></p>
+<p>softmax函数，又称<strong>归一化指数函数。</strong>它是二分类函数sigmoid在多分类上的推广，目的是将多分类的结果以概率的形式展现出来。下图展示了softmax的计算方法：</p>
+<img src="/2019/09/18/Softmax函数快速理解/1.png" title="This is an example image">
+
+<p><strong>指数函数的值域取值范围是零到正无穷，与概率取值相似的地方是它们都是非负实数。</strong></p>
+<ul>
+<li><p>利用指数函数将多分类结果映射到零到正无穷；</p>
+</li>
+<li><p>然后进行归一化处理，便得到了近似的概率。</p>
+</li>
+</ul>
+<h4 id="总结一下softmax如何将多分类输出转换为概率，可以分为两步："><a href="#总结一下softmax如何将多分类输出转换为概率，可以分为两步：" class="headerlink" title="总结一下softmax如何将多分类输出转换为概率，可以分为两步："></a>总结一下softmax如何将多分类输出转换为概率，可以分为两步：</h4><p>1）分子：通过指数函数，将实数输出映射到零到正无穷。</p>
+<p>2）分母：将所有结果相加，进行归一化。</p>
+<img src="/2019/09/18/Softmax函数快速理解/2.png" title="This is an example image">
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/18/Softmax函数快速理解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+
+  
     <article id="post-Structural-RNN-Deep-Learning-on-Spatio-Temporal-Graphs" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -719,11 +832,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">First Blog</a>
+                <a href="javascript:void(0)" class="js-tag color4">Function</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Function</a>
+                <a href="javascript:void(0)" class="js-tag color1">First Blog</a>
               </li>
              
               <li class="article-tag-list-item">

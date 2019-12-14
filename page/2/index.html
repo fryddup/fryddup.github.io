@@ -166,6 +166,179 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Python面向对象编程程基础篇-继承和多态" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/11/Python面向对象编程程基础篇-继承和多态/">Python面向对象编程程基础篇-继承和多态</a>
+    </h1>
+  
+
+
+        
+        <a href="/2019/10/11/Python面向对象编程程基础篇-继承和多态/" class="archive-article-date">
+  	<time datetime="2019-10-11T15:13:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">1.7k字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">6分</span>
+      </span>
+    </span>
+</div>
+           
+        
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Python继承和多态"><a href="#Python继承和多态" class="headerlink" title="Python继承和多态"></a>Python继承和多态</h3><hr>
+<p>在OOP程序设计中，当我们定义一个class的时候，可以从某个现有的class继承，新的class称为子类（Subclass），而被继承的class称为基类、父类或超类（Base class、Super class）。</p>
+<p>比如，我们已经编写了一个名为<code>Animal</code>的class，有一个<code>run()</code>方法可以直接打印：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'Animal is running...'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>当我们需要编写<code>Dog</code>和<code>Cat</code>类时，就可以直接从<code>Animal</code>类继承：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span><span class="params">(Animal)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span><span class="params">(Animal)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>对于<code>Dog</code>来说，<code>Animal</code>就是它的父类，对于<code>Animal</code>来说，<code>Dog</code>就是它的子类。<code>Cat</code>和<code>Dog</code>类似。</p>
+<p>继承有什么好处？最大的好处是子类获得了父类的全部功能。由于<code>Animial</code>实现了<code>run()</code>方法，因此，<code>Dog</code>和<code>Cat</code>作为它的子类，什么事也没干，就自动拥有了<code>run()</code>方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dog = Dog()</span><br><span class="line">dog.run()</span><br><span class="line"></span><br><span class="line">cat = Cat()</span><br><span class="line">cat.run()</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Animal <span class="keyword">is</span> running...</span><br><span class="line">Animal <span class="keyword">is</span> running...</span><br></pre></td></tr></table></figure>
+
+<p>当然，也可以对子类增加一些方法，比如Dog类：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span><span class="params">(Animal)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'Dog is running...'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'Eating meat...'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>继承的第二个好处需要我们对代码做一点改进。你看到了，无论是<code>Dog</code>还是<code>Cat</code>，它们<code>run()</code>的时候，显示的都是<code>Animal is running...</code>，符合逻辑的做法是分别显示<code>Dog is running...</code>和<code>Cat is running...</code>，因此，对<code>Dog</code>和<code>Cat</code>类改进如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span><span class="params">(Animal)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'Dog is running...'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span><span class="params">(Animal)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'Cat is running...'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>再次运行，结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Dog <span class="keyword">is</span> running...</span><br><span class="line">Cat <span class="keyword">is</span> running...</span><br></pre></td></tr></table></figure>
+
+<p>当子类和父类都存在相同的<code>run()</code>方法时，我们说，子类的<code>run()</code>覆盖了父类的<code>run()</code>，在代码运行的时候，总是会调用子类的<code>run()</code>。这样，我们就获得了继承的另一个好处：多态。</p>
+<p>要理解什么是多态，我们首先要对数据类型再作一点说明。当我们定义一个class的时候，我们实际上就定义了一种数据类型。我们定义的数据类型和Python自带的数据类型，比如str、list、dict没什么两样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = list() <span class="comment"># a是list类型</span></span><br><span class="line">b = Animal() <span class="comment"># b是Animal类型</span></span><br><span class="line">c = Dog() <span class="comment"># c是Dog类型</span></span><br></pre></td></tr></table></figure>
+
+<p>判断一个变量是否是某个类型可以用<code>isinstance()</code>判断：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>isinstance(a, list)</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>isinstance(b, Animal)</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>isinstance(c, Dog)</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<p>看来<code>a</code>、<code>b</code>、<code>c</code>确实对应着<code>list</code>、<code>Animal</code>、<code>Dog</code>这3种类型。</p>
+<p>但是等等，试试：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>isinstance(c, Animal)</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<p>看来<code>c</code>不仅仅是<code>Dog</code>，<code>c</code>还是<code>Animal</code>！</p>
+<p>不过仔细想想，这是有道理的，因为<code>Dog</code>是从<code>Animal</code>继承下来的，当我们创建了一个<code>Dog</code>的实例<code>c</code>时，我们认为<code>c</code>的数据类型是<code>Dog</code>没错，但<code>c</code>同时也是<code>Animal</code>也没错，<code>Dog</code>本来就是<code>Animal</code>的一种！</p>
+<p>所以，在继承关系中，如果一个实例的数据类型是某个子类，那它的数据类型也可以被看做是父类。但是，反过来就不行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = Animal()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>isinstance(b, Dog)</span><br><span class="line"><span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<p><code>Dog</code>可以看成<code>Animal</code>，但<code>Animal</code>不可以看成<code>Dog</code>。</p>
+<p>要理解多态的好处，我们还需要再编写一个函数，这个函数接受一个<code>Animal</code>类型的变量：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_twice</span><span class="params">(animal)</span>:</span></span><br><span class="line">    animal.run()</span><br><span class="line">    animal.run()</span><br></pre></td></tr></table></figure>
+
+<p>当我们传入<code>Animal</code>的实例时，<code>run_twice()</code>就打印出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>run_twice(Animal())</span><br><span class="line">Animal <span class="keyword">is</span> running...</span><br><span class="line">Animal <span class="keyword">is</span> running...</span><br></pre></td></tr></table></figure>
+
+<p>当我们传入<code>Dog</code>的实例时，<code>run_twice()</code>就打印出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>run_twice(Dog())</span><br><span class="line">Dog <span class="keyword">is</span> running...</span><br><span class="line">Dog <span class="keyword">is</span> running...</span><br></pre></td></tr></table></figure>
+
+<p>当我们传入<code>Cat</code>的实例时，<code>run_twice()</code>就打印出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>run_twice(Cat())</span><br><span class="line">Cat <span class="keyword">is</span> running...</span><br><span class="line">Cat <span class="keyword">is</span> running...</span><br></pre></td></tr></table></figure>
+
+<p>看上去没啥意思，但是仔细想想，现在，如果我们再定义一个<code>Tortoise</code>类型，也从<code>Animal</code>派生：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tortoise</span><span class="params">(Animal)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'Tortoise is running slowly...'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>当我们调用<code>run_twice()</code>时，传入<code>Tortoise</code>的实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>run_twice(Tortoise())</span><br><span class="line">Tortoise <span class="keyword">is</span> running slowly...</span><br><span class="line">Tortoise <span class="keyword">is</span> running slowly...</span><br></pre></td></tr></table></figure>
+
+<p>你会发现，新增一个<code>Animal</code>的子类，不必对<code>run_twice()</code>做任何修改，实际上，任何依赖<code>Animal</code>作为参数的函数或者方法都可以不加修改地正常运行，原因就在于多态。</p>
+<p>多态的好处就是，当我们需要传入<code>Dog</code>、<code>Cat</code>、<code>Tortoise</code>……时，我们只需要接收<code>Animal</code>类型就可以了，因为<code>Dog</code>、<code>Cat</code>、<code>Tortoise</code>……都是<code>Animal</code>类型，然后，按照<code>Animal</code>类型进行操作即可。由于<code>Animal</code>类型有<code>run()</code>方法，因此，传入的任意类型，只要是<code>Animal</code>类或者子类，就会自动调用实际类型的<code>run()</code>方法，这就是多态的意思：</p>
+<p>对于一个变量，我们只需要知道它是<code>Animal</code>类型，无需确切地知道它的子类型，就可以放心地调用<code>run()</code>方法，而具体调用的<code>run()</code>方法是作用在<code>Animal</code>、<code>Dog</code>、<code>Cat</code>还是<code>Tortoise</code>对象上，由运行时该对象的确切类型决定，这就是多态真正的威力：调用方只管调用，不管细节，而当我们新增一种<code>Animal</code>的子类时，只要确保<code>run()</code>方法编写正确，不用管原来的代码是如何调用的。这就是著名的“开闭”原则：</p>
+<p>对扩展开放：允许新增<code>Animal</code>子类；</p>
+<p>对修改封闭：不需要修改依赖<code>Animal</code>类型的<code>run_twice()</code>等函数。</p>
+<p>继承还可以一级一级地继承下来，就好比从爷爷到爸爸、再到儿子这样的关系。而任何类，最终都可以追溯到根类object，这些继承关系看上去就像一颗倒着的树。比如如下的继承树：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">                ┌───────────────┐</span><br><span class="line">                │    object     │</span><br><span class="line">                └───────────────┘</span><br><span class="line">                        │</span><br><span class="line">           ┌────────────┴────────────┐</span><br><span class="line">           │                         │</span><br><span class="line">           ▼                         ▼</span><br><span class="line">    ┌─────────────┐           ┌─────────────┐</span><br><span class="line">    │   Animal    │           │    Plant    │</span><br><span class="line">    └─────────────┘           └─────────────┘</span><br><span class="line">           │                         │</span><br><span class="line">     ┌─────┴──────┐            ┌─────┴──────┐</span><br><span class="line">     │            │            │            │</span><br><span class="line">     ▼            ▼            ▼            ▼</span><br><span class="line">┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐</span><br><span class="line">│   Dog   │  │   Cat   │  │  Tree   │  │ Flower  │</span><br><span class="line">└─────────┘  └─────────┘  └─────────┘  └─────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="静态语言-vs-动态语言"><a href="#静态语言-vs-动态语言" class="headerlink" title="静态语言 vs 动态语言"></a>静态语言 vs 动态语言</h3><p>对于静态语言（例如Java）来说，如果需要传入<code>Animal</code>类型，则传入的对象必须是<code>Animal</code>类型或者它的子类，否则，将无法调用<code>run()</code>方法。</p>
+<p>对于Python这样的动态语言来说，则不一定需要传入<code>Animal</code>类型。我们只需要保证传入的对象有一个<code>run()</code>方法就可以了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Timer</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'Start...'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这就是动态语言的“鸭子类型”，它并不要求严格的继承体系，一个对象只要“看起来像鸭子，走起路来像鸭子”，那它就可以被看做是鸭子。</p>
+<p>Python的“file-like object“就是一种鸭子类型。对真正的文件对象，它有一个<code>read()</code>方法，返回其内容。但是，许多对象，只要有<code>read()</code>方法，都被视为“file-like object“。许多函数接收的参数就是“file-like object“，你不一定要传入真正的文件对象，完全可以传入任何实现了<code>read()</code>方法的对象。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>继承可以把父类的所有功能都直接拿过来，这样就不必重零做起，子类只需要新增自己特有的方法，也可以把父类不适合的方法覆盖重写。</p>
+<p>动态语言的鸭子类型特点决定了继承不像静态语言那样是必须的。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Python编程学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/11/Python面向对象编程程基础篇-继承和多态/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+
+  
     <article id="post-Python面向对象编程程基础篇-访问限制-封装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1283,119 +1456,6 @@
 </span>
 
   
-    <article id="post-Softmax函数快速理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/18/Softmax函数快速理解/">Softmax函数快速理解</a>
-    </h1>
-  
-
-
-        
-        <a href="/2019/09/18/Softmax函数快速理解/" class="archive-article-date">
-  	<time datetime="2019-09-18T15:53:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-18</time>
-</a>
-        
-          <div style="margin-top:10px;">
-    <span class="post-time">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-keyboard-o"></i>
-        <span class="post-meta-item-text">  字数统计: </span>
-        <span class="post-count">215字</span>
-      </span>
-    </span>
-
-    <span class="post-time">
-      &nbsp; | &nbsp;
-      <span class="post-meta-item-icon">
-        <i class="fa fa-hourglass-half"></i>
-        <span class="post-meta-item-text">  阅读时长: </span>
-        <span class="post-count">1分</span>
-      </span>
-    </span>
-</div>
-           
-        
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="理解softmax函数（超简单）"><a href="#理解softmax函数（超简单）" class="headerlink" title="理解softmax函数（超简单）"></a>理解softmax函数（超简单）</h3><hr>
-<p><strong>softmax函数一般用于做多分类函数。</strong></p>
-<p>softmax函数，又称<strong>归一化指数函数。</strong>它是二分类函数sigmoid在多分类上的推广，目的是将多分类的结果以概率的形式展现出来。下图展示了softmax的计算方法：</p>
-<img src="/2019/09/18/Softmax函数快速理解/1.png" title="This is an example image">
-
-<p><strong>指数函数的值域取值范围是零到正无穷，与概率取值相似的地方是它们都是非负实数。</strong></p>
-<ul>
-<li><p>利用指数函数将多分类结果映射到零到正无穷；</p>
-</li>
-<li><p>然后进行归一化处理，便得到了近似的概率。</p>
-</li>
-</ul>
-<h4 id="总结一下softmax如何将多分类输出转换为概率，可以分为两步："><a href="#总结一下softmax如何将多分类输出转换为概率，可以分为两步：" class="headerlink" title="总结一下softmax如何将多分类输出转换为概率，可以分为两步："></a>总结一下softmax如何将多分类输出转换为概率，可以分为两步：</h4><p>1）分子：通过指数函数，将实数输出映射到零到正无穷。</p>
-<p>2）分母：将所有结果相加，进行归一化。</p>
-<img src="/2019/09/18/Softmax函数快速理解/2.png" title="This is an example image">
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/18/Softmax函数快速理解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-<span id="busuanzi_container_page_pv">
-   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
-</span>
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1512,11 +1572,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">First Blog</a>
+                <a href="javascript:void(0)" class="js-tag color4">Function</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Function</a>
+                <a href="javascript:void(0)" class="js-tag color1">First Blog</a>
               </li>
              
               <li class="article-tag-list-item">
