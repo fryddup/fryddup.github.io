@@ -166,6 +166,124 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Tensorflow自编码器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/21/Tensorflow自编码器/">Tensorflow自编码器</a>
+    </h1>
+  
+
+
+        
+        <a href="/2019/09/21/Tensorflow自编码器/" class="archive-article-date">
+  	<time datetime="2019-09-21T07:48:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-21</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">568字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">3分</span>
+      </span>
+    </span>
+</div>
+           
+        
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="tensoeflow自编码器"><a href="#tensoeflow自编码器" class="headerlink" title="tensoeflow自编码器"></a>tensoeflow自编码器</h3><hr>
+<h3 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h3><p>自编码器即可以利用自身的高阶特征来编码自己，是一种神经网络，输入与输出一致。</p>
+<h3 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h3><ul>
+<li>使用稀疏的一些高阶特征来重组自己，而不是单纯的复制像素点</li>
+<li>期望输入输出一致</li>
+</ul>
+<hr>
+<h3 id="限制："><a href="#限制：" class="headerlink" title="限制："></a>限制：</h3><ul>
+<li>加入随机噪声</li>
+<li>隐藏层数量小于输入层节点数量，数据降维<br>
+加入限制可以防止像素直接复制
+
+</li>
+</ul>
+<hr>
+<h3 id="用途："><a href="#用途：" class="headerlink" title="用途："></a>用途：</h3><p>无监督学习，提取数据特征；逐层抽象</p>
+<img src="/2019/09/21/Tensorflow自编码器/1.jpg" title="This is an example image">
+<p>输入图片4，分解为基本特征，基本特征重组，在形成输出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#tensorflow实现</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> sklearn.preprocessing <span class="keyword">as</span> prep</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist  <span class="keyword">import</span> input_data</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">xavier_init</span><span class="params">(fan_in, fan_out)</span>:</span></span><br><span class="line">    low = <span class="number">-1</span> * np.sqrt(<span class="number">6.0</span> / (fan_in + fan_out))</span><br><span class="line">    high = - low</span><br><span class="line">    <span class="keyword">return</span> tf.random_uniform((fan_in, fan_out), minval=low, maxval=high)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AdditiveGausssianAutoencoder</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, n_inputs, n_hiddens, activtion_function=tf.nn.softplus,</span></span></span><br><span class="line"><span class="function"><span class="params">                 optimizer=tf.train.AdamOptimizer<span class="params">()</span>, scale=<span class="number">0.1</span>)</span>:</span></span><br><span class="line">        self.n_input = n_inputs</span><br><span class="line">        self.n_hidden = n_hiddens</span><br><span class="line">        self.activtion_function = activtion_function</span><br><span class="line">        self.scale = scale</span><br><span class="line">        self.weights = &#123;</span><br><span class="line">            <span class="string">'w1'</span>: tf.Variable(xavier_init(self.n_input, self.n_hidden)),</span><br><span class="line">            <span class="string">'w2'</span>: tf.Variable(tf.zeros([self.n_hidden, self.n_input]))</span><br><span class="line">        &#125;</span><br><span class="line">        self.biases = &#123;</span><br><span class="line">            <span class="string">'b1'</span>: tf.zeros([self.n_hidden]),</span><br><span class="line">            <span class="string">'b2'</span>: tf.zeros([self.n_input])</span><br><span class="line">        &#125;</span><br><span class="line">        self.x = tf.placeholder(tf.float32, [<span class="literal">None</span>, self.n_input])</span><br><span class="line">        self.hidden = tf.matmul(self.x + scale * tf.random_normal((n_inputs, )),</span><br><span class="line">                                self.weights[<span class="string">'w1'</span>]) + self.biases[<span class="string">'b1'</span>]</span><br><span class="line">        self.reconstruction = tf.matmul(self.hidden, self.weights[<span class="string">'w2'</span>]) + self.biases[<span class="string">'b2'</span>]</span><br><span class="line">        self.loss = <span class="number">0.5</span> * tf.reduce_sum(tf.square(self.reconstruction - self.x))</span><br><span class="line">        self.optimizer = optimizer.minimize(self.loss)</span><br><span class="line"> </span><br><span class="line">        self.sess = tf.Session()</span><br><span class="line">        self.sess.run(tf.global_variables_initializer())</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">partial_fit</span><span class="params">(self, X)</span>:</span></span><br><span class="line">        loss, opt = self.sess.run([self.loss, self.optimizer],</span><br><span class="line">                                  feed_dict=&#123;self.x: X&#125;)</span><br><span class="line">        <span class="keyword">return</span> loss</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calc_cost</span><span class="params">(self, X)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.sess.run(self.loss, feed_dict=&#123;self.x: X&#125;)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reconstruct</span><span class="params">(self, X)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.sess.run(self.reconstruction, feed_dict=&#123;self.x: X&#125;)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">mnist = input_data.read_data_sets(<span class="string">'MNIST_data'</span>, one_hot=<span class="literal">True</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">standard_scale</span><span class="params">(X_train, X_test)</span>:</span></span><br><span class="line">    preprocessor = prep.StandardScaler().fit(X_train)</span><br><span class="line">    X_train = preprocessor.transform(X_train)</span><br><span class="line">    X_test = preprocessor.transform(X_test)</span><br><span class="line">    <span class="keyword">return</span> X_train, X_test</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_random_block_from_data</span><span class="params">(data, batch_size)</span>:</span></span><br><span class="line">    start_index = np.random.randint(<span class="number">0</span>, len(data) - batch_size)</span><br><span class="line">    <span class="keyword">return</span> data[start_index: start_index + batch_size]</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">X_train, X_test = standard_scale(mnist.train.images, mnist.test.images)</span><br><span class="line">n_samples = mnist.train.num_examples</span><br><span class="line">training_epoch = <span class="number">20</span></span><br><span class="line">batch_size = <span class="number">128</span></span><br><span class="line"> </span><br><span class="line">autoencoder = AdditiveGausssianAutoencoder(</span><br><span class="line">    n_inputs=<span class="number">784</span>, n_hiddens=<span class="number">200</span>, activtion_function=tf.nn.softplus,</span><br><span class="line">    optimizer=tf.train.AdamOptimizer(learning_rate=<span class="number">0.001</span>), scale=<span class="number">0.01</span></span><br><span class="line">)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(training_epoch):</span><br><span class="line">    avg_cost = <span class="number">0</span></span><br><span class="line">    step = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> step * batch_size &lt; n_samples:</span><br><span class="line">        batch_x = get_random_block_from_data(X_train, batch_size)</span><br><span class="line">        cost = autoencoder.partial_fit(batch_x)</span><br><span class="line">        avg_cost += cost / batch_size</span><br><span class="line">        step += <span class="number">1</span></span><br><span class="line">    print(<span class="string">'Epoch: %d'</span> % epoch, <span class="string">'cost: %.3f'</span> % avg_cost)</span><br><span class="line"> </span><br><span class="line">print(<span class="string">'Total cost: %0.3f'</span> % autoencoder.calc_cost(X_test))</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">batch_test = get_random_block_from_data(X_test, <span class="number">5</span>)</span><br><span class="line">encoder_test = autoencoder.reconstruct(batch_test)</span><br><span class="line">print(type(encoder_test))</span><br><span class="line"><span class="comment"># &lt;class 'numpy.ndarray'&gt;</span></span><br><span class="line">fig, ax = plt.subplots(nrows=<span class="number">2</span>, ncols=<span class="number">5</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    ax[<span class="number">0</span>][i].imshow(batch_test[i].reshape((<span class="number">28</span>, <span class="number">28</span>)), cmap=<span class="string">'Greys'</span>, interpolation=<span class="string">'nearest'</span>)</span><br><span class="line">    ax[<span class="number">1</span>][i].imshow(encoder_test[i].reshape((<span class="number">28</span>, <span class="number">28</span>)), cmap=<span class="string">'Greys'</span>, interpolation=<span class="string">'nearest'</span>)</span><br><span class="line">plt.tight_layout()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2019/09/21/Tensorflow自编码器/2.png" title="This is an example image">
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/21/Tensorflow自编码器/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+
+  
     <article id="post-Softmax函数快速理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -824,11 +942,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">论文/Paper</a>
+                <a href="javascript:void(0)" class="js-tag color4">Deep Learning</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Deep Learning</a>
+                <a href="javascript:void(0)" class="js-tag color4">论文/Paper</a>
               </li>
              
               <li class="article-tag-list-item">
