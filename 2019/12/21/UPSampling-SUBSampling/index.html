@@ -6,19 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://fryddup.github.io">
-  <title>Tag: Python编程学习 | 桦七</title>
+  <title>UPSampling &amp;&amp; SUBSampling | 桦七</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="浙江工商大学计算机硕士">
-<meta name="keywords" content="python机器学习，Java后端开发">
-<meta property="og:type" content="website">
-<meta property="og:title" content="桦七">
-<meta property="og:url" content="http://fryddup.github.io/tags/Python编程学习/index.html">
+  <meta name="description" content="最近阅读论文碰到上下采样计算，所以就了解了一下，大致如下： 一、基本概念  缩小图像（或称为下采样（subsampled）或降采样（downsampled））的主要目的有两个：  使得图像符合显示区域的大小 生成对应图像的缩略图  ​    放大图像（或称为上采样（upsampling）或图像插值（interpolating））的主要目的是放大原图像,从而可以显示在更高分辨率的显示设备上。对图像的">
+<meta name="keywords" content="Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UPSampling &amp;&amp; SUBSampling">
+<meta property="og:url" content="http://fryddup.github.io/2019/12/21/UPSampling-SUBSampling/index.html">
 <meta property="og:site_name" content="桦七">
-<meta property="og:description" content="浙江工商大学计算机硕士">
+<meta property="og:description" content="最近阅读论文碰到上下采样计算，所以就了解了一下，大致如下： 一、基本概念  缩小图像（或称为下采样（subsampled）或降采样（downsampled））的主要目的有两个：  使得图像符合显示区域的大小 生成对应图像的缩略图  ​    放大图像（或称为上采样（upsampling）或图像插值（interpolating））的主要目的是放大原图像,从而可以显示在更高分辨率的显示设备上。对图像的">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091217/%E6%9C%80%E9%82%BB%E8%BF%91%E5%85%83.png">
+<meta property="og:image" content="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091217/%E5%8F%8C%E7%BA%BF%E6%80%A7%E5%90%8C%E6%8F%92.png">
+<meta property="og:image" content="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E5%85%AC%E5%BC%8F.png">
+<meta property="og:image" content="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E4%B8%89%E6%AC%A1%E6%8F%92%E5%80%BC%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E5%85%AC%E5%BC%8F2.png">
+<meta property="og:updated_time" content="2019-12-21T15:17:19.872Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="桦七">
-<meta name="twitter:description" content="浙江工商大学计算机硕士">
+<meta name="twitter:title" content="UPSampling &amp;&amp; SUBSampling">
+<meta name="twitter:description" content="最近阅读论文碰到上下采样计算，所以就了解了一下，大致如下： 一、基本概念  缩小图像（或称为下采样（subsampled）或降采样（downsampled））的主要目的有两个：  使得图像符合显示区域的大小 生成对应图像的缩略图  ​    放大图像（或称为上采样（upsampling）或图像插值（interpolating））的主要目的是放大原图像,从而可以显示在更高分辨率的显示设备上。对图像的">
+<meta name="twitter:image" content="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091217/%E6%9C%80%E9%82%BB%E8%BF%91%E5%85%83.png">
   
     <link rel="alternative" href="/atom.xml" title="桦七" type="application/atom+xml">
   
@@ -164,175 +171,279 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-UPSampling-SUBSampling" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      UPSampling &amp;&amp; SUBSampling
+    </h1>
+  
+
+
+        
+        <a href="/2019/12/21/UPSampling-SUBSampling/" class="archive-article-date">
+  	<time datetime="2019-12-21T15:09:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-21</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">1.1k字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">3分</span>
+      </span>
+    </span>
+</div>
+           
+        
+        
+          <span class="archive-article-date">
+             阅读量 <span id="busuanzi_value_page_pv"></span>
+          </span>
+
+
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近阅读论文碰到上下采样计算，所以就了解了一下，大致如下：</p>
+<h4 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h4><p>  <strong>缩小图像</strong>（或称为下采样（<strong>subsampled</strong>）或降采样（<strong>downsampled</strong>））的主要目的有两个：</p>
+<ul>
+<li>使得图像符合显示区域的大小</li>
+<li>生成对应图像的缩略图</li>
+</ul>
+<p>​    <strong>放大图像</strong>（或称为上采样<strong>（upsampling）</strong>或图像插值<strong>（interpolating）</strong>）的主要目的是放大原图像,从而可以显示在更高分辨率的显示设备上。对图像的缩放操作并不能带来更多关于该图像的信息, 因此图像的质量将不可避免地受到影响。然而，确实有一些缩放方法能够增加图像的信息，从而使得缩放后的图像质量超过原图质量的。</p>
+<pre><code> 下采样原理：对于一幅图像I尺寸为M*N，对其进行s倍下采样，即得到(M/s)*(N/s)尺寸的得分辨率图像，当然s应该是M和N的公约数才行，如果考虑的是矩阵形式的图像，就是把原始图像s*s窗口内的图像变成一个像素，这个像素点的值就是窗口内所有像素的均值：
+
+
+
+上采样原理：图像放大几乎都是采用内插值方法，即在原有图像像素的基础上在像素点之间采用合适的插值算法插入新的元素。</code></pre><p>无论缩放图像（下采样）还是放大图像（上采样），采样方式有很多种。如最近邻插值，双线性插值，均值插值，中值插值等方法。在AlexNet中就使用了较合适的插值方法。各种插值方法都有各自的优缺点。</p>
+<hr>
+<h4 id="二、常用的插值方法"><a href="#二、常用的插值方法" class="headerlink" title="二、常用的插值方法"></a>二、常用的插值方法</h4><h5 id="1、最邻近元法"><a href="#1、最邻近元法" class="headerlink" title="1、最邻近元法"></a>1、最邻近元法</h5><p>　　这是最简单的一种插值方法，不需要计算，在待求象素的四邻象素中，将距离待求象素最近的邻象素灰度赋给待求象素。设i+u, j+v(i, j为正整数， u, v为大于零小于1的小数，下同)为待求象素坐标，则待求象素灰度的值 f(i+u, j+v)　如下图所示：</p>
+<img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091217/%E6%9C%80%E9%82%BB%E8%BF%91%E5%85%83.png" alt="img" style="zoom:150%;">
+
+
+
+<p>如果(i+u, j+v)落在A区，即u&lt;0.5, v&lt;0.5，则将左上角象素的灰度值赋给待求象素，同理，落在B区则赋予右上角的象素灰度值，落在C区则赋予左下角象素的灰度值，落在D区则赋予右下角象素的灰度值。</p>
+<p>最邻近元法计算量较小，但可能会造成插值生成的图像灰度上的不连续，在灰度变化的地方可能出现明显的锯齿状。</p>
+<h5 id="2、双线性内插法"><a href="#2、双线性内插法" class="headerlink" title="2、双线性内插法"></a>2、双线性内插法</h5><p>双线性内插法是利用待求象素四个邻象素的灰度在两个方向上作线性内插，如下图所示：</p>
+<p><img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091217/%E5%8F%8C%E7%BA%BF%E6%80%A7%E5%90%8C%E6%8F%92.png" alt="img"></p>
+<p>对于 (i, j+v)，f(i, j) 到 f(i, j+1) 的灰度变化为线性关系，则有：</p>
+<p>　　　　　　f(i, j+v) = [f(i, j+1) - f(i, j)] * v + f(i, j)</p>
+<p>同理对于 (i+1, j+v) 则有：</p>
+<pre><code>f(i+1, j+v) = [f(i+1, j+1) - f(i+1, j)] * v + f(i+1, j)</code></pre><p>从f(i, j+v) 到 f(i+1, j+v) 的灰度变化也为线性关系，由此可推导出待求象素灰度的计算式如下：</p>
+<pre><code>f(i+u, j+v) = (1-u) * (1-v) * f(i, j) + (1-u) * v * f(i, j+1) + u * (1-v) * f(i+1, j) + u * v * f(i+1, j+1)</code></pre><p>双线性内插法的计算比最邻近点法复杂，计算量较大，但没有灰度不连续的缺点，结果基本令人满意。它具有低通滤波性质，使高频分量受损，图像轮廓可能会有一点模糊。</p>
+<h5 id="3、三次内插法"><a href="#3、三次内插法" class="headerlink" title="3、三次内插法"></a>3、三次内插法</h5><p>该方法利用三次多项式S(x)求逼近理论上最佳插值函数sin(x)/x, 其数学表达式为：</p>
+<p><img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E5%85%AC%E5%BC%8F.png" alt="img"></p>
+<p>待求像素(x, y)的灰度值由其周围16个灰度值加权内插得到，如下图：</p>
+<p><img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E4%B8%89%E6%AC%A1%E6%8F%92%E5%80%BC%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="img"></p>
+<p>待求像素的灰度计算式如下：</p>
+<p>f(x, y) = f(i+u, j+v) = ABC</p>
+<p>其中: </p>
+<p> <img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E5%85%AC%E5%BC%8F2.png" alt="img"></p>
+<p>三次曲线插值方法计算量较大，但插值后的图像效果最好。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/weixin.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/11/Python面向对象编程程基础篇-继承和多态/" class="archive-article-date">
-  	<time datetime="2019-10-11T15:13:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/11/Python面向对象编程程基础篇-继承和多态/">Python面向对象编程程基础篇-继承和多态</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Python编程学习</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://fryddup.github.io/2019/12/21/UPSampling-SUBSampling/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/11/Python面向对象编程程基础篇-访问限制-封装/" class="archive-article-date">
-  	<time datetime="2019-10-11T15:09:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/12/21/卷积操作基础/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          卷积操作总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/12/16/Human-Pose-Estimation-Summarize/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Human 2D Pose Estimation Summarize</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/11/Python面向对象编程程基础篇-访问限制-封装/">Python面向对象编程程基础篇-访问限制(封装)</a>
-    </h1>
-  
+        
+        
+    </div>
+</aside>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Python编程学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/11/Python面向对象编程程基础篇-类和对象/" class="archive-article-date">
-  	<time datetime="2019-10-11T13:04:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/11/Python面向对象编程程基础篇-类和对象/">Python面向对象编程程基础篇__类和对象</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Python编程学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/11/Python模块封装/" class="archive-article-date">
-  	<time datetime="2019-10-11T12:29:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/11/Python模块封装/">Python模块封装</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Python编程学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
+  
+  <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: "http://fryddup.github.io/2019/12/21/UPSampling-SUBSampling/", 
+    sourceId: "UPSampling-SUBSampling",
+    productKey: "true",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="//img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
   
 
-    
+  
 
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://jjeejj.github.io/js/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "UPSampling &amp;&amp; SUBSampling",
+  owner: 'fryddup',
+  repo: 'fryddup.github.io',
+  oauth: {
+    client_id: 'f65ac3d7a0ea2dd8f667',
+    client_secret: '833817fca31394db62aefb85a4bc73fbd55708c4',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+  
+
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
 
           </div>
         </div>
@@ -360,9 +471,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

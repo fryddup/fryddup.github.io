@@ -166,6 +166,299 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-卷积操作基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/21/卷积操作基础/">卷积操作总结</a>
+    </h1>
+  
+
+
+        
+        <a href="/2019/12/21/卷积操作基础/" class="archive-article-date">
+  	<time datetime="2019-12-21T15:34:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-21</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">691字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">2分</span>
+      </span>
+    </span>
+</div>
+           
+        
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、为什么要进行卷积？"><a href="#一、为什么要进行卷积？" class="headerlink" title="一、为什么要进行卷积？"></a>一、为什么要进行卷积？</h3><p>卷积操作的目的是提取图像的特征。都提取什么特种呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。</p>
+<p>如下图，左边是相同的一整图，通过三次卷积操作，得到了三张特征图，分别是锐化、浮雕、轮廓。（<strong>原来ps或中很多照片效果是直接经过卷积计算得来的</strong>）</p>
+<img src="/2019/12/21/卷积操作基础/a.jpg">
+
+
+
+<h3 id="二、如何进行卷积操作"><a href="#二、如何进行卷积操作" class="headerlink" title="二、如何进行卷积操作"></a>二、如何进行卷积操作</h3><img src="/2019/12/21/卷积操作基础/b.png">
+
+<ul>
+<li><p>把上图分成几部分，通过几个关键词来了解卷积操作。</p>
+</li>
+<li><p>原图： 上图的绿色矩阵，这个是计算机眼中的图片。图片通过矩阵的方式进行表达。</p>
+</li>
+<li><p>卷积核： 上图的黄色矩阵，这个是卷积核，核的大小可以自定义，2x2、 3x3、5x5都可以的，卷积核里面的权值的不同，提取的特征图也不同，如图（1）所示不同的核得到的不同的特征图。</p>
+</li>
+<li><p>计算方式：上图灰色的箭头，代表原图矩阵与卷积核矩阵他们两个的计算方式。下面会进行讨论。</p>
+</li>
+<li><p>特征图：上图粉色部分，卷积操作最后获得的结果。 </p>
+</li>
+</ul>
+<h3 id="三、卷积的计算方式"><a href="#三、卷积的计算方式" class="headerlink" title="三、卷积的计算方式"></a>三、卷积的计算方式</h3><img src="/2019/12/21/卷积操作基础/c.gif">
+
+<p>根据移动步长，对应位置数值相乘相加</p>
+<h3 id="四、其他卷积"><a href="#四、其他卷积" class="headerlink" title="四、其他卷积"></a>四、其他卷积</h3><table>
+<thead>
+<tr>
+<th>卷积操作</th>
+<th>讲解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>图4</strong><img src="https://img-blog.csdnimg.cn/20190305160640266.gif" alt="在这里插入图片描述"></td>
+<td>这种卷积操作叫SAME Padding，卷积操作后原图与特征图大小相同。每次移动一个格子</td>
+</tr>
+<tr>
+<td><strong>图5</strong><img src="https://img-blog.csdnimg.cn/20190305160700225.gif" alt="在这里插入图片描述"></td>
+<td>这种卷积操作叫VALUE Padding，卷积操作后原图比特征图要大，每次移动的步长为2</td>
+</tr>
+<tr>
+<td><strong>图6</strong><img src="https://img-blog.csdnimg.cn/20190305173141713.gif" alt="在这里插入图片描述"></td>
+<td>空洞卷积（atrous convolutions）又名扩张卷积（dilated convolutions），向卷积层引入了一个称为 “扩张率(dilation rate)”的新参数，该参数定义了卷积核处理数据时各值的间距。</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+<h3 id="五、1-1卷积"><a href="#五、1-1卷积" class="headerlink" title="五、1*1卷积"></a>五、1*1卷积</h3><p>首先假设用平面的二维图像与1*1的核进行卷积，则我们会得到：</p>
+<p><img src="https://img-blog.csdn.net/20180518134610521?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI0NjU2NTU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>这样只会在原来的像素上乘上一个系数，并没有什么直接的效果。</p>
+<p>但是假设在一个多通道的图像中用上<strong>1*1</strong>的卷积核，我们会得到什么样的效果呢？</p>
+<p><img src="https://img-blog.csdn.net/20180518134633441?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI0NjU2NTU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>用一个6 x 6 x 32的图像去乘以1<em>1</em>32的卷积核得到的其实是一个6*6的二维矩阵。这样就将通道数32给消除了，相当于给图像降维的操作，而且很迅速。</p>
+<p>卷积核的通道数必须与源图像的通道数相同。在通常的神经网络中，一般不会单独只使用1个卷积核，当使用的卷积核的个数是filters的时候，最后输出的就是一个6<em>6</em>filters的立方块。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/21/卷积操作基础/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+
+  
+    <article id="post-UPSampling-SUBSampling" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/21/UPSampling-SUBSampling/">UPSampling &amp;&amp; SUBSampling</a>
+    </h1>
+  
+
+
+        
+        <a href="/2019/12/21/UPSampling-SUBSampling/" class="archive-article-date">
+  	<time datetime="2019-12-21T15:09:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-21</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">1.1k字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">3分</span>
+      </span>
+    </span>
+</div>
+           
+        
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近阅读论文碰到上下采样计算，所以就了解了一下，大致如下：</p>
+<h4 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h4><p>  <strong>缩小图像</strong>（或称为下采样（<strong>subsampled</strong>）或降采样（<strong>downsampled</strong>））的主要目的有两个：</p>
+<ul>
+<li>使得图像符合显示区域的大小</li>
+<li>生成对应图像的缩略图</li>
+</ul>
+<p>​    <strong>放大图像</strong>（或称为上采样<strong>（upsampling）</strong>或图像插值<strong>（interpolating）</strong>）的主要目的是放大原图像,从而可以显示在更高分辨率的显示设备上。对图像的缩放操作并不能带来更多关于该图像的信息, 因此图像的质量将不可避免地受到影响。然而，确实有一些缩放方法能够增加图像的信息，从而使得缩放后的图像质量超过原图质量的。</p>
+<pre><code> 下采样原理：对于一幅图像I尺寸为M*N，对其进行s倍下采样，即得到(M/s)*(N/s)尺寸的得分辨率图像，当然s应该是M和N的公约数才行，如果考虑的是矩阵形式的图像，就是把原始图像s*s窗口内的图像变成一个像素，这个像素点的值就是窗口内所有像素的均值：
+
+
+
+上采样原理：图像放大几乎都是采用内插值方法，即在原有图像像素的基础上在像素点之间采用合适的插值算法插入新的元素。</code></pre><p>无论缩放图像（下采样）还是放大图像（上采样），采样方式有很多种。如最近邻插值，双线性插值，均值插值，中值插值等方法。在AlexNet中就使用了较合适的插值方法。各种插值方法都有各自的优缺点。</p>
+<hr>
+<h4 id="二、常用的插值方法"><a href="#二、常用的插值方法" class="headerlink" title="二、常用的插值方法"></a>二、常用的插值方法</h4><h5 id="1、最邻近元法"><a href="#1、最邻近元法" class="headerlink" title="1、最邻近元法"></a>1、最邻近元法</h5><p>　　这是最简单的一种插值方法，不需要计算，在待求象素的四邻象素中，将距离待求象素最近的邻象素灰度赋给待求象素。设i+u, j+v(i, j为正整数， u, v为大于零小于1的小数，下同)为待求象素坐标，则待求象素灰度的值 f(i+u, j+v)　如下图所示：</p>
+<img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091217/%E6%9C%80%E9%82%BB%E8%BF%91%E5%85%83.png" alt="img" style="zoom:150%;">
+
+
+
+<p>如果(i+u, j+v)落在A区，即u&lt;0.5, v&lt;0.5，则将左上角象素的灰度值赋给待求象素，同理，落在B区则赋予右上角的象素灰度值，落在C区则赋予左下角象素的灰度值，落在D区则赋予右下角象素的灰度值。</p>
+<p>最邻近元法计算量较小，但可能会造成插值生成的图像灰度上的不连续，在灰度变化的地方可能出现明显的锯齿状。</p>
+<h5 id="2、双线性内插法"><a href="#2、双线性内插法" class="headerlink" title="2、双线性内插法"></a>2、双线性内插法</h5><p>双线性内插法是利用待求象素四个邻象素的灰度在两个方向上作线性内插，如下图所示：</p>
+<p><img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091217/%E5%8F%8C%E7%BA%BF%E6%80%A7%E5%90%8C%E6%8F%92.png" alt="img"></p>
+<p>对于 (i, j+v)，f(i, j) 到 f(i, j+1) 的灰度变化为线性关系，则有：</p>
+<p>　　　　　　f(i, j+v) = [f(i, j+1) - f(i, j)] * v + f(i, j)</p>
+<p>同理对于 (i+1, j+v) 则有：</p>
+<pre><code>f(i+1, j+v) = [f(i+1, j+1) - f(i+1, j)] * v + f(i+1, j)</code></pre><p>从f(i, j+v) 到 f(i+1, j+v) 的灰度变化也为线性关系，由此可推导出待求象素灰度的计算式如下：</p>
+<pre><code>f(i+u, j+v) = (1-u) * (1-v) * f(i, j) + (1-u) * v * f(i, j+1) + u * (1-v) * f(i+1, j) + u * v * f(i+1, j+1)</code></pre><p>双线性内插法的计算比最邻近点法复杂，计算量较大，但没有灰度不连续的缺点，结果基本令人满意。它具有低通滤波性质，使高频分量受损，图像轮廓可能会有一点模糊。</p>
+<h5 id="3、三次内插法"><a href="#3、三次内插法" class="headerlink" title="3、三次内插法"></a>3、三次内插法</h5><p>该方法利用三次多项式S(x)求逼近理论上最佳插值函数sin(x)/x, 其数学表达式为：</p>
+<p><img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E5%85%AC%E5%BC%8F.png" alt="img"></p>
+<p>待求像素(x, y)的灰度值由其周围16个灰度值加权内插得到，如下图：</p>
+<p><img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E4%B8%89%E6%AC%A1%E6%8F%92%E5%80%BC%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="img"></p>
+<p>待求像素的灰度计算式如下：</p>
+<p>f(x, y) = f(i+u, j+v) = ABC</p>
+<p>其中: </p>
+<p> <img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E5%85%AC%E5%BC%8F2.png" alt="img"></p>
+<p>三次曲线插值方法计算量较大，但插值后的图像效果最好。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/21/UPSampling-SUBSampling/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+
+  
     <article id="post-Human-Pose-Estimation-Summarize" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -563,154 +856,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/12/07/无关风月-只谈信仰/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-<span id="busuanzi_container_page_pv">
-   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
-</span>
-
-  
-    <article id="post-卷积操作基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/04/卷积操作基础/">卷积操作基础</a>
-    </h1>
-  
-
-
-        
-        <a href="/2019/12/04/卷积操作基础/" class="archive-article-date">
-  	<time datetime="2019-12-04T15:34:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-04</time>
-</a>
-        
-          <div style="margin-top:10px;">
-    <span class="post-time">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-keyboard-o"></i>
-        <span class="post-meta-item-text">  字数统计: </span>
-        <span class="post-count">468字</span>
-      </span>
-    </span>
-
-    <span class="post-time">
-      &nbsp; | &nbsp;
-      <span class="post-meta-item-icon">
-        <i class="fa fa-hourglass-half"></i>
-        <span class="post-meta-item-text">  阅读时长: </span>
-        <span class="post-count">1分</span>
-      </span>
-    </span>
-</div>
-           
-        
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="一、为什么要进行卷积？"><a href="#一、为什么要进行卷积？" class="headerlink" title="一、为什么要进行卷积？"></a>一、为什么要进行卷积？</h3><p>卷积操作的目的是提取图像的特征。都提取什么特种呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。</p>
-<p>如下图，左边是相同的一整图，通过三次卷积操作，得到了三张特征图，分别是锐化、浮雕、轮廓。（<strong>原来ps或中很多照片效果是直接经过卷积计算得来的</strong>）</p>
-<img src="/2019/12/04/卷积操作基础/a.jpg">
-
-
-
-<h3 id="二、如何进行卷积操作"><a href="#二、如何进行卷积操作" class="headerlink" title="二、如何进行卷积操作"></a>二、如何进行卷积操作</h3><img src="/2019/12/04/卷积操作基础/b.png">
-
-<ul>
-<li><p>把上图分成几部分，通过几个关键词来了解卷积操作。</p>
-</li>
-<li><p>原图： 上图的绿色矩阵，这个是计算机眼中的图片。图片通过矩阵的方式进行表达。</p>
-</li>
-<li><p>卷积核： 上图的黄色矩阵，这个是卷积核，核的大小可以自定义，2x2、 3x3、5x5都可以的，卷积核里面的权值的不同，提取的特征图也不同，如图（1）所示不同的核得到的不同的特征图。</p>
-</li>
-<li><p>计算方式：上图灰色的箭头，代表原图矩阵与卷积核矩阵他们两个的计算方式。下面会进行讨论。</p>
-</li>
-<li><p>特征图：上图粉色部分，卷积操作最后获得的结果。 </p>
-</li>
-</ul>
-<h3 id="三、卷积的计算方式"><a href="#三、卷积的计算方式" class="headerlink" title="三、卷积的计算方式"></a>三、卷积的计算方式</h3><img src="/2019/12/04/卷积操作基础/c.gif">
-
-<p>根据移动步长，对应位置数值相乘相加</p>
-<h3 id="四、其他卷积"><a href="#四、其他卷积" class="headerlink" title="四、其他卷积"></a>四、其他卷积</h3><table>
-<thead>
-<tr>
-<th>卷积操作</th>
-<th>讲解</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>图4</strong><img src="https://img-blog.csdnimg.cn/20190305160640266.gif" alt="在这里插入图片描述"></td>
-<td>这种卷积操作叫SAME Padding，卷积操作后原图与特征图大小相同。每次移动一个格子</td>
-</tr>
-<tr>
-<td><strong>图5</strong><img src="https://img-blog.csdnimg.cn/20190305160700225.gif" alt="在这里插入图片描述"></td>
-<td>这种卷积操作叫VALUE Padding，卷积操作后原图比特征图要大，每次移动的步长为2</td>
-</tr>
-<tr>
-<td><strong>图6</strong><img src="https://img-blog.csdnimg.cn/20190305173141713.gif" alt="在这里插入图片描述"></td>
-<td>空洞卷积（atrous convolutions）又名扩张卷积（dilated convolutions），向卷积层引入了一个称为 “扩张率(dilation rate)”的新参数，该参数定义了卷积核处理数据时各值的间距。</td>
-</tr>
-</tbody>
-</table>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/04/卷积操作基础/">展开全文 >></a>
         </p>
       
 
@@ -1480,172 +1625,6 @@
 </span>
 
   
-    <article id="post-Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/15/Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks/">Faster R-CNN Towards Real-Time Object Detection with Region Proposal Networks</a>
-    </h1>
-  
-
-
-        
-        <a href="/2019/10/15/Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks/" class="archive-article-date">
-  	<time datetime="2019-10-15T13:01:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-15</time>
-</a>
-        
-          <div style="margin-top:10px;">
-    <span class="post-time">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-keyboard-o"></i>
-        <span class="post-meta-item-text">  字数统计: </span>
-        <span class="post-count">1.1k字</span>
-      </span>
-    </span>
-
-    <span class="post-time">
-      &nbsp; | &nbsp;
-      <span class="post-meta-item-icon">
-        <i class="fa fa-hourglass-half"></i>
-        <span class="post-meta-item-text">  阅读时长: </span>
-        <span class="post-count">4分</span>
-      </span>
-    </span>
-</div>
-           
-        
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks论文笔记"><a href="#Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks论文笔记" class="headerlink" title="Faster R-CNN Towards Real-Time Object Detection with Region Proposal Networks论文笔记"></a>Faster R-CNN Towards Real-Time Object Detection with Region Proposal Networks论文笔记</h3><hr>
-<p>收录于Neural Information Processing Systems(NIPS), 2015（ Machine Learning领域的顶会）</p>
-<h4 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h4><p>本篇文章2015年发表，比较早，主要针对目标检测领域，首次提出了Anchor概念，用Anchor来解决检测领域的一个难题：如何生成不同尺寸和比例的Region Proposals？Object Detection的几个经典算法：</p>
-<ul>
-<li><strong>R-CNN</strong>  整合现有的网络，用CNN做分类器</li>
-<li><strong>Fast R-CNN</strong>  同时输出<code>bbox</code>和<code>label</code></li>
-<li><strong>Faster R-CNN</strong>  改变了Region Proposals产生方法 ，不再采用传统的’SS’算法，而是采用RPN网络</li>
-</ul>
-<p><strong>Faster R-CNN</strong> 检测算法以<strong>Fast R-CNN</strong>为基础进行改进，得到进一步的加速，<del>使得基于CNN的检测方法有了Real-Time的希望。</del>（用很昂贵的GPU K40 2017年售价25000，跑Res-Net 5fps）</p>
-<p><strong>以前方法存在的问题：</strong><code>Region Proposals</code>计算是个瓶颈</p>
-<hr>
-<h4 id="二、网络结构"><a href="#二、网络结构" class="headerlink" title="二、网络结构"></a>二、网络结构</h4><h4 id="1-网络的输入输出"><a href="#1-网络的输入输出" class="headerlink" title="1.网络的输入输出"></a>1.网络的输入输出</h4><ul>
-<li><p>输入：image</p>
-</li>
-<li><p>输出：bbox；category label；类别的概率</p>
-</li>
-</ul>
-<img src="/2019/10/15/Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks/a.jpg">
-
-<hr>
-<h4 id="2-网络架构"><a href="#2-网络架构" class="headerlink" title="2.网络架构"></a>2.网络架构</h4><img src="/2019/10/15/Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks/b.jpg">
-
-<ul>
-<li><p>首先，输入图片表示为 Height × Width × Depth 的张量(多维数组)形式，经过预训练 CNN 模型的处理，得到卷积特征图(conv feature map). 即，将 CNN 作为特征提取器，送入下一个部分.</p>
-</li>
-<li><p>然后，RPN(Region Propose Network) 对提取的卷积特征图进行处理. RPN 用于寻找可能包含 objects 的预定义数量的区域(regions，边界框).</p>
-</li>
-</ul>
-<p>基于深度学习的目标检测中，可能最难的问题就是<strong>生成长度不定(variable-length)的边界框列表</strong>. 在构建深度神经网络时，最后的网络输出一般是固定尺寸的张量输出(采用RNN的除外). </p>
-<p>在 RPN 中，通过采用 anchors 来解决边界框列表长度不定的问题，即，在原始图像中统一放置固定大小的参考边界框. 不同于直接检测 objects 的位置，这里将问题转化为两部分：</p>
-<ul>
-<li><p>对每一个 anchor 而言，anchor 是否包含相关的 object？</p>
-</li>
-<li><p>如何调整 anchor 以更好的拟合相关的 object？</p>
-</li>
-</ul>
-<p>当获得了可能的相关objects 和其在原始图像中的对应位置之后，问题就更加直接了. 采用 CNN 提取的特征和包含相关 objects 的边界框，</p>
-<p>（采用Fast R-CNN处理后续工作）</p>
-<hr>
-<h4 id="3-RPN结构"><a href="#3-RPN结构" class="headerlink" title="3.RPN结构"></a>3.RPN结构</h4><img src="/2019/10/15/Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks/c.jpg">
-
-<p>RPN 输入是卷积特征图，输出图片生成的 proposals.</p>
-<p>RPN 利用所有的参考 boxes(anchors)，输出一系列 objects 的良好的 proposals. 针对每个 anchor，都有两个不同的输出：</p>
-<ul>
-<li><p><code>anchor 内是某个 object 的概率.</code><br>RPN 不关注于 anchor 是某个 <code>object class</code>，只是确定其可能是一个 <code>object</code> (而不是背景background)即： RPN 不关心 object 类别，只确定是 object 还是 background.<br>利用 object score，去滤出将要用于第二阶段的效果不佳的 boxes.</p>
-</li>
-<li><p>anchor 边界框回归输出 用于边界框的输出用于调整 anchors 来更好的拟合预测的 object.</p>
-</li>
-</ul>
-<p>RPN 是<strong>全卷积(full conv) 网络</strong>，其采用基础网络输出的<strong>卷积特征图</strong>作为输入. 首先，采用 512 channel，3×3 kernel 的卷积层，然后是两个并行的 1×1 kernel 的卷积层，该卷积层的 channels 数量取决每个点的 anchors 的数量.</p>
-<p>对于分类层，每个 anchor 输出两个预测值：anchor 是背景(background，非object)的 score 和 anchor 是前景(foreground，object) 的 score.</p>
-<p>对于回归层，也可以叫边界框调整层，每个 anchor 输出 4 个预测值<code>Δxcenter,Δycenter,Δwidth,Δheight</code>，即用于 anchors 来得到最终的 proposals.</p>
-<p>根据最终的 proposal 坐标和其对应的<code>objectness score</code>，即可得到良好的 <code>objects proposals.</code></p>
-<hr>
-<h4 id="4-Loss计算"><a href="#4-Loss计算" class="headerlink" title="4.Loss计算"></a>4.Loss计算</h4><img src="/2019/10/15/Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks/d.jpg">
-
-
-
-<p>其中，i为一个anchor在一个mini-batch中的下标，pi是anchori为一个object的预测可能性。如果这个anchor是positive的，则ground-truth标签pi<em>为1，否则为0。ti表示预测bounding box的4个参数化坐标，”ti**</em>“是这个positive anchor对应的ground-truth box。</p>
-<p>分类的损失（classification loss）Lcls是一个二值分类器（是object或者不是）的softmax loss。</p>
-<img src="/2019/10/15/Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks/e.jpg">
-
-
-
-
-
-<hr>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>本文实现了产生候选框（RPN）网络与后面的 <code>Fast R-CNN</code>网络共享卷积层，只提取一个特征两个网络共用从而提高了效率，这种share的思想值得借鉴。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">论文/Paper</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/15/Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-<span id="busuanzi_container_page_pv">
-   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
-</span>
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1766,11 +1745,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Python编程学习</a>
+                <a href="javascript:void(0)" class="js-tag color1">First Blog</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">First Blog</a>
+                <a href="javascript:void(0)" class="js-tag color1">Python编程学习</a>
               </li>
              
               <li class="article-tag-list-item">

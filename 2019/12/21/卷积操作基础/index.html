@@ -6,19 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://fryddup.github.io">
-  <title>Tag: Python编程学习 | 桦七</title>
+  <title>卷积操作总结 | 桦七</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="浙江工商大学计算机硕士">
-<meta name="keywords" content="python机器学习，Java后端开发">
-<meta property="og:type" content="website">
-<meta property="og:title" content="桦七">
-<meta property="og:url" content="http://fryddup.github.io/tags/Python编程学习/index.html">
+  <meta name="description" content="一、为什么要进行卷积？卷积操作的目的是提取图像的特征。都提取什么特种呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。 如下图，左边是相同的一整图，通过三次卷积操作，得到了三张特征图，分别是锐化、浮雕、轮廓。（原来ps或中很多照片效果是直接经过卷积计算得来的）     二、如何进行卷积操作   把上图分成几部分，通过几个关键词来了解卷积操作。  原图： 上图的绿色矩阵，这个是计算机眼中">
+<meta name="keywords" content="Deep Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="卷积操作总结">
+<meta property="og:url" content="http://fryddup.github.io/2019/12/21/卷积操作基础/index.html">
 <meta property="og:site_name" content="桦七">
-<meta property="og:description" content="浙江工商大学计算机硕士">
+<meta property="og:description" content="一、为什么要进行卷积？卷积操作的目的是提取图像的特征。都提取什么特种呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。 如下图，左边是相同的一整图，通过三次卷积操作，得到了三张特征图，分别是锐化、浮雕、轮廓。（原来ps或中很多照片效果是直接经过卷积计算得来的）     二、如何进行卷积操作   把上图分成几部分，通过几个关键词来了解卷积操作。  原图： 上图的绿色矩阵，这个是计算机眼中">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="http://fryddup.github.io/2019/12/21/卷积操作基础/a.jpg">
+<meta property="og:image" content="http://fryddup.github.io/2019/12/21/卷积操作基础/b.png">
+<meta property="og:image" content="http://fryddup.github.io/2019/12/21/卷积操作基础/c.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190305160640266.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190305160700225.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190305173141713.gif">
+<meta property="og:image" content="https://img-blog.csdn.net/20180518134610521?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI0NjU2NTU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/20180518134633441?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI0NjU2NTU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:updated_time" content="2019-12-21T15:07:25.294Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="桦七">
-<meta name="twitter:description" content="浙江工商大学计算机硕士">
+<meta name="twitter:title" content="卷积操作总结">
+<meta name="twitter:description" content="一、为什么要进行卷积？卷积操作的目的是提取图像的特征。都提取什么特种呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。 如下图，左边是相同的一整图，通过三次卷积操作，得到了三张特征图，分别是锐化、浮雕、轮廓。（原来ps或中很多照片效果是直接经过卷积计算得来的）     二、如何进行卷积操作   把上图分成几部分，通过几个关键词来了解卷积操作。  原图： 上图的绿色矩阵，这个是计算机眼中">
+<meta name="twitter:image" content="http://fryddup.github.io/2019/12/21/卷积操作基础/a.jpg">
   
     <link rel="alternative" href="/atom.xml" title="桦七" type="application/atom+xml">
   
@@ -164,175 +174,295 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-卷积操作基础" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      卷积操作总结
+    </h1>
+  
+
+
+        
+        <a href="/2019/12/21/卷积操作基础/" class="archive-article-date">
+  	<time datetime="2019-12-21T15:34:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-21</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">691字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">2分</span>
+      </span>
+    </span>
+</div>
+           
+        
+        
+          <span class="archive-article-date">
+             阅读量 <span id="busuanzi_value_page_pv"></span>
+          </span>
+
+
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、为什么要进行卷积？"><a href="#一、为什么要进行卷积？" class="headerlink" title="一、为什么要进行卷积？"></a>一、为什么要进行卷积？</h3><p>卷积操作的目的是提取图像的特征。都提取什么特种呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。</p>
+<p>如下图，左边是相同的一整图，通过三次卷积操作，得到了三张特征图，分别是锐化、浮雕、轮廓。（<strong>原来ps或中很多照片效果是直接经过卷积计算得来的</strong>）</p>
+<img src="/2019/12/21/卷积操作基础/a.jpg">
+
+
+
+<h3 id="二、如何进行卷积操作"><a href="#二、如何进行卷积操作" class="headerlink" title="二、如何进行卷积操作"></a>二、如何进行卷积操作</h3><img src="/2019/12/21/卷积操作基础/b.png">
+
+<ul>
+<li><p>把上图分成几部分，通过几个关键词来了解卷积操作。</p>
+</li>
+<li><p>原图： 上图的绿色矩阵，这个是计算机眼中的图片。图片通过矩阵的方式进行表达。</p>
+</li>
+<li><p>卷积核： 上图的黄色矩阵，这个是卷积核，核的大小可以自定义，2x2、 3x3、5x5都可以的，卷积核里面的权值的不同，提取的特征图也不同，如图（1）所示不同的核得到的不同的特征图。</p>
+</li>
+<li><p>计算方式：上图灰色的箭头，代表原图矩阵与卷积核矩阵他们两个的计算方式。下面会进行讨论。</p>
+</li>
+<li><p>特征图：上图粉色部分，卷积操作最后获得的结果。 </p>
+</li>
+</ul>
+<h3 id="三、卷积的计算方式"><a href="#三、卷积的计算方式" class="headerlink" title="三、卷积的计算方式"></a>三、卷积的计算方式</h3><img src="/2019/12/21/卷积操作基础/c.gif">
+
+<p>根据移动步长，对应位置数值相乘相加</p>
+<h3 id="四、其他卷积"><a href="#四、其他卷积" class="headerlink" title="四、其他卷积"></a>四、其他卷积</h3><table>
+<thead>
+<tr>
+<th>卷积操作</th>
+<th>讲解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>图4</strong><img src="https://img-blog.csdnimg.cn/20190305160640266.gif" alt="在这里插入图片描述"></td>
+<td>这种卷积操作叫SAME Padding，卷积操作后原图与特征图大小相同。每次移动一个格子</td>
+</tr>
+<tr>
+<td><strong>图5</strong><img src="https://img-blog.csdnimg.cn/20190305160700225.gif" alt="在这里插入图片描述"></td>
+<td>这种卷积操作叫VALUE Padding，卷积操作后原图比特征图要大，每次移动的步长为2</td>
+</tr>
+<tr>
+<td><strong>图6</strong><img src="https://img-blog.csdnimg.cn/20190305173141713.gif" alt="在这里插入图片描述"></td>
+<td>空洞卷积（atrous convolutions）又名扩张卷积（dilated convolutions），向卷积层引入了一个称为 “扩张率(dilation rate)”的新参数，该参数定义了卷积核处理数据时各值的间距。</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+<h3 id="五、1-1卷积"><a href="#五、1-1卷积" class="headerlink" title="五、1*1卷积"></a>五、1*1卷积</h3><p>首先假设用平面的二维图像与1*1的核进行卷积，则我们会得到：</p>
+<p><img src="https://img-blog.csdn.net/20180518134610521?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI0NjU2NTU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>这样只会在原来的像素上乘上一个系数，并没有什么直接的效果。</p>
+<p>但是假设在一个多通道的图像中用上<strong>1*1</strong>的卷积核，我们会得到什么样的效果呢？</p>
+<p><img src="https://img-blog.csdn.net/20180518134633441?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI0NjU2NTU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>用一个6 x 6 x 32的图像去乘以1<em>1</em>32的卷积核得到的其实是一个6*6的二维矩阵。这样就将通道数32给消除了，相当于给图像降维的操作，而且很迅速。</p>
+<p>卷积核的通道数必须与源图像的通道数相同。在通常的神经网络中，一般不会单独只使用1个卷积核，当使用的卷积核的个数是filters的时候，最后输出的就是一个6<em>6</em>filters的立方块。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/weixin.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/11/Python面向对象编程程基础篇-继承和多态/" class="archive-article-date">
-  	<time datetime="2019-10-11T15:13:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/11/Python面向对象编程程基础篇-继承和多态/">Python面向对象编程程基础篇-继承和多态</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Python编程学习</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://fryddup.github.io/2019/12/21/卷积操作基础/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/11/Python面向对象编程程基础篇-访问限制-封装/" class="archive-article-date">
-  	<time datetime="2019-10-11T15:09:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/12/21/UPSampling-SUBSampling/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">UPSampling &amp;&amp; SUBSampling</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/11/Python面向对象编程程基础篇-访问限制-封装/">Python面向对象编程程基础篇-访问限制(封装)</a>
-    </h1>
-  
+        
+        
+    </div>
+</aside>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Python编程学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/11/Python面向对象编程程基础篇-类和对象/" class="archive-article-date">
-  	<time datetime="2019-10-11T13:04:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/11/Python面向对象编程程基础篇-类和对象/">Python面向对象编程程基础篇__类和对象</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Python编程学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/11/Python模块封装/" class="archive-article-date">
-  	<time datetime="2019-10-11T12:29:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/11/Python模块封装/">Python模块封装</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Python编程学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
+  
+  <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: "http://fryddup.github.io/2019/12/21/卷积操作基础/", 
+    sourceId: "卷积操作基础",
+    productKey: "true",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="//img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
   
 
-    
+  
 
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://jjeejj.github.io/js/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "卷积操作总结",
+  owner: 'fryddup',
+  repo: 'fryddup.github.io',
+  oauth: {
+    client_id: 'f65ac3d7a0ea2dd8f667',
+    client_secret: '833817fca31394db62aefb85a4bc73fbd55708c4',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+  
+
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
 
           </div>
         </div>
@@ -360,9 +490,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

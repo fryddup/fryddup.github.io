@@ -166,6 +166,127 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Tensorflow多层感知机" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/21/Tensorflow多层感知机/">Tensorflow多层感知机</a>
+    </h1>
+  
+
+
+        
+        <a href="/2019/09/21/Tensorflow多层感知机/" class="archive-article-date">
+  	<time datetime="2019-09-21T07:52:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-21</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">416字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">1分</span>
+      </span>
+    </span>
+</div>
+           
+        
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="多层感知机"><a href="#多层感知机" class="headerlink" title="多层感知机"></a>多层感知机</h3><hr>
+<p>神经网络加上非线性隐藏层，表达能力更强。手写数字识别，有了隐藏层神经网络就可以提取图片的高层次抽象特征来识别图像，比如横线、竖线、源泉组合成数字，否则只能通过一维像素来推测。</p>
+<hr>
+<p><strong>深层次神经网络可以表达更复杂的函数，相应的，随着层数的增多，会出现一些问题：</strong></p>
+<ul>
+<li>过拟合：模型只是记忆了当前数据特征，不具有推广能力。通过增大样本量、减少数量来防止过拟合。<strong>Dropout</strong>可以解决这一问题</li>
+<li>参数难以调试 ： 采用Adgrad、Adam、Adadelta等方法可以自适应调节参数 </li>
+<li>梯度弥散 ： 梯度变化慢，难以收敛。隐藏层采用<strong>ReLu</strong>函数解决</li>
+</ul>
+<hr>
+<p>隐藏层采用激活函数，目的只是加强模型<strong>非线性</strong>。 如果不用激活函数，每一层输出都是上层输入的线性函数，无论神经网络有多少层，输出都是输入的线性组合，这种情况就是最原始的<strong>感知机（Perceptron）</strong>。</p>
+<p>如果使用的话，激活函数给神经元引入了非线性因素，使得神经网络可以任意逼近任何非线性函数，这样神经网络就可以应用到众多的非线性模型中。</p>
+<hr>
+<h3 id="常用的激活函数："><a href="#常用的激活函数：" class="headerlink" title="常用的激活函数："></a>常用的激活函数：</h3><p>① 激活函数 relu 在 Tensorflow 中， 用 tf.nn.relu() 表示</p>
+<img src="/2019/09/21/Tensorflow多层感知机/relu0.jpg" title="This is an example image">  
+<img src="/2019/09/21/Tensorflow多层感知机/relu1.jpg" title="This is an example image"> 
+
+<p>② 激活函数 sigmoid ：在 Tensorflow 中， 用 tf.nn.sigmoid() 表示</p>
+<img src="/2019/09/21/Tensorflow多层感知机/sigmoid0.jpg" title="This is an example image">  
+<img src="/2019/09/21/Tensorflow多层感知机/sigmoid1.jpg" title="This is an example image"> 
+
+<hr>
+<p>通过多层感知机，手写数字识别准确率达到%98，但是依然不能到99%。 </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/21/Tensorflow多层感知机/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+
+  
     <article id="post-Tensorflow自编码器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -954,11 +1075,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Python编程学习</a>
+                <a href="javascript:void(0)" class="js-tag color1">First Blog</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">First Blog</a>
+                <a href="javascript:void(0)" class="js-tag color1">Python编程学习</a>
               </li>
              
               <li class="article-tag-list-item">
