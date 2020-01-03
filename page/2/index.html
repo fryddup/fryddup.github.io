@@ -166,6 +166,185 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-RMPE-Regional-Multi-Person-Pose-Estimation" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/">RMPE: Regional Multi-Person Pose Estimation</a>
+    </h1>
+  
+
+
+        
+        <a href="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/" class="archive-article-date">
+  	<time datetime="2019-11-07T15:36:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-07</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">1.5k字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">5分</span>
+      </span>
+    </span>
+</div>
+           
+        
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="AlphaPose姿态检测论文"><a href="#AlphaPose姿态检测论文" class="headerlink" title="AlphaPose姿态检测论文"></a>AlphaPose姿态检测论文</h3><p>收录于International Conference on Computer Vision(<strong>ICCV2017</strong>)，人工智能顶会</p>
+<hr>
+<p><strong><em>简介</em></strong>：复杂环境下的人体姿态估计非常具有挑战性。目前人体姿态估计存在的问题：</p>
+<ul>
+<li><p>生成 <strong>region propoals</strong>会出错，<strong>error</strong></p>
+<img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/a.png">
+</li>
+<li><p>region propoals redundant (目标检测框冗余)</p>
+<img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/b.png">
+
+</li>
+</ul>
+<p>本篇论文采用<code>top-down</code>方法，取得了很好的效果。本篇论文的主要贡献在于：</p>
+<ul>
+<li><p>生成了高质量的人体检测框（region propoals）</p>
+</li>
+<li><p>首次提出比较完善的 <strong>NMS算法</strong>，可以去除冗余的 region propoals</p>
+</li>
+<li><p><strong>Pose-guided Proposals Generator</strong>  实现过程，即姿态的分类聚类分布</p>
+</li>
+</ul>
+<hr>
+<p><strong><em>网络框架（Network Structure）</em></strong>：论文框架主要由三个模块组成</p>
+<ul>
+<li><strong>Symmetric Spatial Transformer Network (SSTN)</strong>  ：生成高质量候选区域</li>
+<li><strong>Parametric Pose Non-Maximum-Suppression (NMS)</strong>  ：去除冗余的候选框[非极大值抑制]</li>
+<li><strong>Pose-Guided ProposalsGenerator (PGPG)</strong>  ：增强训练数据集</li>
+</ul>
+<p>​    <img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/c.png"></p>
+<p>首先输入图像经过目标检测算法(VGG based SSD-512)得到人体区域框(region-propoals),以小bbox为单位，送入<strong>STN+SPPE（stacked hourglass model）</strong> 模块中，得到高质量的人体区域框，识别人体姿态，然后送入NMS去除重复的框。在训练过程中使用<strong>Parallel SPPE</strong>    提升SSTN 效果，进一步得到高质量候选框。</p>
+<hr>
+<p><strong><em>框架细节 Detail</em></strong></p>
+<p>①.<strong>Symmetric STN and Parallel SPPE</strong></p>
+<p>​    <img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/d.png"></p>
+<p>STN用于提取高质量候选框（是别人提出的）， 单人候选框（不准确）输入STN，送入SPPE分支的经过SDTN变换坐标映射到原图得到一个Label；送入Parallel SPPE分支则直接是 Ground Truth Label，用来监督SSTN生成高质量候选框。</p>
+<ul>
+<li>STN能生成高质量的区域候选框，After SPPE, the resulting pose is mapped into the original human proposal image.（人体姿态线绘制到对应的人体区域框）</li>
+<li>SDNT用来讲人体姿态反映射回原始图像中，这样原始图像会存在姿态线 具体的算法公式不展开</li>
+</ul>
+<p>②. <strong>Parametric Pose NMS</strong> </p>
+<p>​    <img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/12.png">       </p>
+<p>​    <img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/21.png"></p>
+<ul>
+<li><p><strong>NMS schema</strong>  :   首先选取最大置信度的姿态作为参考，并且根据消除标准将靠近该参考的区域框进行消除。这个过程多次重复直到冗余的识别框被消除并且每一个识别框都是唯一的出现（没有超过阈值的重叠）</p>
+</li>
+<li><p><strong>Elimination Criterion</strong>  :  我们需要定义姿态相似度来消除那些离得较近且比较相似的姿态。我们定义了一种姿态距离度量d(Pi,Pj|Λ)来衡量姿态之间的相似度，定义η作为消除标准的阈值，在这里的Λ表示函数d(⋅)的一个参数集合。我们的消除标准可以定义为下面的形式：    </p>
+<p>​        <img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/e.png"></p>
+<p>如果d(⋅)小于阈值η，那么f(⋅)的输出是1，表示姿态Pi应该被消除，因为对于参考的Pj来说Pi是冗余的。</p>
+</li>
+<li><p><strong>Pose Distance</strong></p>
+</li>
+</ul>
+<p>$$<br>Ksim(Pi,Pj|\sigma1) = \begin{cases}<br>\sum _n tanh((c_i ^n)/\sigma_1)*tanh((c_j ^n)/\sigma_1)&amp; {if k _j^n within B(k_i^n)}\<br>0&amp; \text{other wise}<br>\end{cases}<br>$$</p>
+<p>​        <img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/2.png"></p>
+<p>​        <img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/f.png"></p>
+<p>​        <img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/1.png"><br>$$<br>d(Pi, Pj |\Lambda) = Ksim (Pi, Pj |\sigma1) + \lambda HSim(Pi, Pj |\sigma2)<br>$$</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">给出一张图片和上面许多物体检测的候选框（即每个框可能都代表某种物体），但是这些框很可能有互相重叠的部分，我们要做的就是只保留最优的框。假设有N个框，每个框被分类器计算得到的分数为Si, 1&lt;=i&lt;=N。</span><br><span class="line"></span><br><span class="line">0、建造一个存放待处理候选框的集合H，初始化为包含全部N个框；</span><br><span class="line"></span><br><span class="line">     建造一个存放最优框的集合M，初始化为空集。</span><br><span class="line"></span><br><span class="line">1、将所有集合 H 中的框进行排序，选出分数最高的框 m，从集合 H 移到集合 M；</span><br><span class="line"></span><br><span class="line">2、遍历集合 H 中的框，分别与框 m 计算交并比（Interection-over-union，IoU），如果高于某个阈值（一般为0~0.5），则认为此框与 m 重叠，将此框从集合 H 中去除。</span><br><span class="line"></span><br><span class="line">3、回到第1步进行迭代，直到集合 H 为空。集合 M 中的框为我们所需。</span><br></pre></td></tr></table></figure>
+
+<p>③ <strong>Poseguided Proposals Generator</strong></p>
+<ul>
+<li><p><strong>Data Augmentation</strong>  : 增强数据集， 在训练阶段使用检测出来的区域框。然而，目标检测对于一个人而言只会产生一个定位区域。通过使用生成的人体定位，可以产生一定得效果。因为我们已经有了每一个人的真实位置和检测出来的定位框，我们可以通过与人体检测结果一致的样本生成一个大样本的训练集。通过这种技术，我们可以进一步提高系统的性能。</p>
+</li>
+<li><p><strong>Insight</strong> ： 寻找对于不同姿态之间真实值和实际预测值的相对偏移量的分布。为了进一步明确过程，这里定义P(δB|P)，δB表示检测到的人体位置的坐标和实际人体的标注坐标之间的偏移量，P是真实情况中一个人。我们可以根据目标检测得到的推荐位置生成一些训练集。</p>
+</li>
+<li><p><strong>Implementation</strong>  ：直接学习P(δB|P)对于易变的人体姿态是比较困难的。因此我们使用P(δB|atom(P))，atom（P）表示P的原子组成部分（P是一个姿态，包含多个关节点）。为了得到姿态的原子结构，我们首先排列好所有的具有相同长度肢体。然后使用K-means聚类得到的聚类中心做为姿态的原子姿态。</p>
+<p>对于每一个共享原子姿态a的实例，计算真实值和检测边界框的偏移量。然后使用该方向上的真实边框的边长进行归一化处理。处理后，偏移量会形成一个频率分布，并将我们的数据拟合成高斯混合分布。对于不同的原子姿态，我们会得到不同的高斯混合分布</p>
+<p>​    <img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/g.png"></p>
+<hr>
+<p><em>Experiments</em> <strong>实验结果</strong></p>
+</li>
+</ul>
+<img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/e1.png">
+
+<img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/e2.png">
+
+<img src="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/e3.png">
+
+
+
+
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">论文/Paper</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/07/RMPE-Regional-Multi-Person-Pose-Estimation/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+<span id="busuanzi_container_page_pv">
+   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</span>
+
+  
     <article id="post-Faster-R-CNN-Towards-Real-Time-Object-Detection-with-Region-Proposal-Networks" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1406,122 +1585,6 @@
 </span>
 
   
-    <article id="post-正则化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/21/正则化/">正则化</a>
-    </h1>
-  
-
-
-        
-        <a href="/2019/09/21/正则化/" class="archive-article-date">
-  	<time datetime="2019-09-21T08:00:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-21</time>
-</a>
-        
-          <div style="margin-top:10px;">
-    <span class="post-time">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-keyboard-o"></i>
-        <span class="post-meta-item-text">  字数统计: </span>
-        <span class="post-count">356字</span>
-      </span>
-    </span>
-
-    <span class="post-time">
-      &nbsp; | &nbsp;
-      <span class="post-meta-item-icon">
-        <i class="fa fa-hourglass-half"></i>
-        <span class="post-meta-item-text">  阅读时长: </span>
-        <span class="post-count">1分</span>
-      </span>
-    </span>
-</div>
-           
-        
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="正则化项L1和L2的直观理解"><a href="#正则化项L1和L2的直观理解" class="headerlink" title="正则化项L1和L2的直观理解"></a>正则化项L1和L2的直观理解</h3><hr>
-<h4 id="正则化（Regularization）"><a href="#正则化（Regularization）" class="headerlink" title="正则化（Regularization）"></a><strong>正则化（Regularization）</strong></h4><p>机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，中文称作 L1正则化 和 L2正则化，或者 L1范数 和 L2范数。</p>
-<p>L1正则化和L2正则化可以看做是<strong>损失函数的惩罚项</strong>。所谓『惩罚』是指对损失函数中的某些参数做一些限制。对于线性回归模型，使用L1正则化的模型建叫做Lasso回归，使用L2正则化的模型叫做<strong>Ridge回归（岭回归）</strong>。</p>
-<hr>
-<p><strong>计算公式：</strong></p>
-<ul>
-<li><p>L1正则化是指权值向量w中各个元素的绝对值之和，通常表示为∣∣w∣∣1||w||_1∣∣w∣∣ </p>
-</li>
-<li><p>L2正则化是指权值向量w中各个元素的平方和然后再求平方根（可以看到Ridge回归的L2正则化项有平方符号），通常表示为∣∣w∣∣2||w||_2∣∣w∣∣ </p>
-</li>
-<li><p>一般都会在正则化项之前添加一个系数，Python中用α\alphaα表示，一些文章也用λ\lambdaλ表示。这个系数需要用户指定。</p>
-</li>
-</ul>
-<hr>
-<h4 id="L1正则化和L2正则化的作用"><a href="#L1正则化和L2正则化的作用" class="headerlink" title="L1正则化和L2正则化的作用"></a>L1正则化和L2正则化的作用</h4><ul>
-<li>L1正则化可以产生稀疏权值矩阵，即产生一个稀疏模型，可以用于特征选择</li>
-<li>L2正则化可以<strong>防止模型过拟合</strong>（overfitting）；一定程度上，L1也可以防止过拟合</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/21/正则化/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-<span id="busuanzi_container_page_pv">
-   本文总阅读量<span id="busuanzi_value_page_pv"></span>次
-</span>
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1536,7 +1599,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 桦七
+    		&copy; 2020 桦七
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

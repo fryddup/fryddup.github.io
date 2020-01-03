@@ -8,20 +8,20 @@
   <link rel="dns-prefetch" href="http://fryddup.github.io">
   <title>Softmax函数快速理解 | 桦七</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="理解softmax函数（超简单） softmax函数一般用于做多分类函数。 softmax函数，又称归一化指数函数。它是二分类函数sigmoid在多分类上的推广，目的是将多分类的结果以概率的形式展现出来。下图展示了softmax的计算方法：   指数函数的值域取值范围是零到正无穷，与概率取值相似的地方是它们都是非负实数。  利用指数函数将多分类结果映射到零到正无穷；  然后进行归一化处理，便得到了">
+  <meta name="description" content="###  softmax函数一般用于做多分类函数。 softmax函数，又称归一化指数函数。它是二分类函数sigmoid在多分类上的推广，目的是将多分类的结果以概率的形式展现出来。下图展示了softmax的计算方法：   指数函数的值域取值范围是零到正无穷，与概率取值相似的地方是它们都是非负实数。  利用指数函数将多分类结果映射到零到正无穷；  然后进行归一化处理，便得到了近似的概率。   总结一">
 <meta name="keywords" content="Deep Learning">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Softmax函数快速理解">
 <meta property="og:url" content="http://fryddup.github.io/2019/09/18/Softmax函数快速理解/index.html">
 <meta property="og:site_name" content="桦七">
-<meta property="og:description" content="理解softmax函数（超简单） softmax函数一般用于做多分类函数。 softmax函数，又称归一化指数函数。它是二分类函数sigmoid在多分类上的推广，目的是将多分类的结果以概率的形式展现出来。下图展示了softmax的计算方法：   指数函数的值域取值范围是零到正无穷，与概率取值相似的地方是它们都是非负实数。  利用指数函数将多分类结果映射到零到正无穷；  然后进行归一化处理，便得到了">
+<meta property="og:description" content="###  softmax函数一般用于做多分类函数。 softmax函数，又称归一化指数函数。它是二分类函数sigmoid在多分类上的推广，目的是将多分类的结果以概率的形式展现出来。下图展示了softmax的计算方法：   指数函数的值域取值范围是零到正无穷，与概率取值相似的地方是它们都是非负实数。  利用指数函数将多分类结果映射到零到正无穷；  然后进行归一化处理，便得到了近似的概率。   总结一">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://fryddup.github.io/2019/09/18/Softmax函数快速理解/1.png">
 <meta property="og:image" content="http://fryddup.github.io/2019/09/18/Softmax函数快速理解/2.png">
-<meta property="og:updated_time" content="2019-09-21T07:59:52.000Z">
+<meta property="og:updated_time" content="2020-01-03T15:19:54.773Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Softmax函数快速理解">
-<meta name="twitter:description" content="理解softmax函数（超简单） softmax函数一般用于做多分类函数。 softmax函数，又称归一化指数函数。它是二分类函数sigmoid在多分类上的推广，目的是将多分类的结果以概率的形式展现出来。下图展示了softmax的计算方法：   指数函数的值域取值范围是零到正无穷，与概率取值相似的地方是它们都是非负实数。  利用指数函数将多分类结果映射到零到正无穷；  然后进行归一化处理，便得到了">
+<meta name="twitter:description" content="###  softmax函数一般用于做多分类函数。 softmax函数，又称归一化指数函数。它是二分类函数sigmoid在多分类上的推广，目的是将多分类的结果以概率的形式展现出来。下图展示了softmax的计算方法：   指数函数的值域取值范围是零到正无穷，与概率取值相似的地方是它们都是非负实数。  利用指数函数将多分类结果映射到零到正无穷；  然后进行归一化处理，便得到了近似的概率。   总结一">
 <meta name="twitter:image" content="http://fryddup.github.io/2019/09/18/Softmax函数快速理解/1.png">
   
     <link rel="alternative" href="/atom.xml" title="桦七" type="application/atom+xml">
@@ -190,7 +190,7 @@
       <span class="post-meta-item-icon">
         <i class="fa fa-keyboard-o"></i>
         <span class="post-meta-item-text">  字数统计: </span>
-        <span class="post-count">215字</span>
+        <span class="post-count">207字</span>
       </span>
     </span>
 
@@ -215,7 +215,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="理解softmax函数（超简单）"><a href="#理解softmax函数（超简单）" class="headerlink" title="理解softmax函数（超简单）"></a>理解softmax函数（超简单）</h3><hr>
+        <p>### </p>
 <p><strong>softmax函数一般用于做多分类函数。</strong></p>
 <p>softmax函数，又称<strong>归一化指数函数。</strong>它是二分类函数sigmoid在多分类上的推广，目的是将多分类的结果以概率的形式展现出来。下图展示了softmax的计算方法：</p>
 <img src="/2019/09/18/Softmax函数快速理解/1.png" title="This is an example image">
@@ -230,7 +230,6 @@
 <h4 id="总结一下softmax如何将多分类输出转换为概率，可以分为两步："><a href="#总结一下softmax如何将多分类输出转换为概率，可以分为两步：" class="headerlink" title="总结一下softmax如何将多分类输出转换为概率，可以分为两步："></a>总结一下softmax如何将多分类输出转换为概率，可以分为两步：</h4><p>1）分子：通过指数函数，将实数输出映射到零到正无穷。</p>
 <p>2）分母：将所有结果相加，进行归一化。</p>
 <img src="/2019/09/18/Softmax函数快速理解/2.png" title="This is an example image">
-
       
 
       
@@ -428,7 +427,7 @@ gitment.render('gitment-ctn')
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 桦七
+    		&copy; 2020 桦七
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

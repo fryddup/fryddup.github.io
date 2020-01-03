@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://fryddup.github.io">
   <title>卷积操作总结 | 桦七</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一、为什么要进行卷积？卷积操作的目的是提取图像的特征。都提取什么特种呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。 如下图，左边是相同的一整图，通过三次卷积操作，得到了三张特征图，分别是锐化、浮雕、轮廓。（原来ps或中很多照片效果是直接经过卷积计算得来的）     二、如何进行卷积操作   把上图分成几部分，通过几个关键词来了解卷积操作。  原图： 上图的绿色矩阵，这个是计算机眼中">
+  <meta name="description" content="一、为什么要进行卷积？卷积操作的目的是提取图像的特征。都提取什么特征呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。 如下图，左边是相同的一整图，通过三次卷积操作，得到了三张特征图，分别是锐化、浮雕、轮廓。（原来ps或中很多照片效果是直接经过卷积计算得来的）     二、如何进行卷积操作   把上图分成几部分，通过几个关键词来了解卷积操作。  原图： 上图的绿色矩阵，这个是计算机眼中">
 <meta name="keywords" content="Deep Learning">
 <meta property="og:type" content="article">
 <meta property="og:title" content="卷积操作总结">
 <meta property="og:url" content="http://fryddup.github.io/2019/12/21/卷积操作基础/index.html">
 <meta property="og:site_name" content="桦七">
-<meta property="og:description" content="一、为什么要进行卷积？卷积操作的目的是提取图像的特征。都提取什么特种呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。 如下图，左边是相同的一整图，通过三次卷积操作，得到了三张特征图，分别是锐化、浮雕、轮廓。（原来ps或中很多照片效果是直接经过卷积计算得来的）     二、如何进行卷积操作   把上图分成几部分，通过几个关键词来了解卷积操作。  原图： 上图的绿色矩阵，这个是计算机眼中">
+<meta property="og:description" content="一、为什么要进行卷积？卷积操作的目的是提取图像的特征。都提取什么特征呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。 如下图，左边是相同的一整图，通过三次卷积操作，得到了三张特征图，分别是锐化、浮雕、轮廓。（原来ps或中很多照片效果是直接经过卷积计算得来的）     二、如何进行卷积操作   把上图分成几部分，通过几个关键词来了解卷积操作。  原图： 上图的绿色矩阵，这个是计算机眼中">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://fryddup.github.io/2019/12/21/卷积操作基础/a.jpg">
 <meta property="og:image" content="http://fryddup.github.io/2019/12/21/卷积操作基础/b.png">
@@ -22,12 +22,12 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190305160640266.gif">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190305160700225.gif">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190305173141713.gif">
-<meta property="og:image" content="https://img-blog.csdn.net/20180518134610521?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI0NjU2NTU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:image" content="https://img-blog.csdn.net/20180518134633441?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI0NjU2NTU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2019-12-21T15:07:25.294Z">
+<meta property="og:image" content="http://fryddup.github.io/2019/12/21/卷积操作基础/d.png">
+<meta property="og:image" content="http://fryddup.github.io/2019/12/21/卷积操作基础/e.png">
+<meta property="og:updated_time" content="2020-01-03T15:24:22.723Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="卷积操作总结">
-<meta name="twitter:description" content="一、为什么要进行卷积？卷积操作的目的是提取图像的特征。都提取什么特种呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。 如下图，左边是相同的一整图，通过三次卷积操作，得到了三张特征图，分别是锐化、浮雕、轮廓。（原来ps或中很多照片效果是直接经过卷积计算得来的）     二、如何进行卷积操作   把上图分成几部分，通过几个关键词来了解卷积操作。  原图： 上图的绿色矩阵，这个是计算机眼中">
+<meta name="twitter:description" content="一、为什么要进行卷积？卷积操作的目的是提取图像的特征。都提取什么特征呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。 如下图，左边是相同的一整图，通过三次卷积操作，得到了三张特征图，分别是锐化、浮雕、轮廓。（原来ps或中很多照片效果是直接经过卷积计算得来的）     二、如何进行卷积操作   把上图分成几部分，通过几个关键词来了解卷积操作。  原图： 上图的绿色矩阵，这个是计算机眼中">
 <meta name="twitter:image" content="http://fryddup.github.io/2019/12/21/卷积操作基础/a.jpg">
   
     <link rel="alternative" href="/atom.xml" title="桦七" type="application/atom+xml">
@@ -221,7 +221,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="一、为什么要进行卷积？"><a href="#一、为什么要进行卷积？" class="headerlink" title="一、为什么要进行卷积？"></a>一、为什么要进行卷积？</h3><p>卷积操作的目的是提取图像的特征。都提取什么特种呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。</p>
+        <h3 id="一、为什么要进行卷积？"><a href="#一、为什么要进行卷积？" class="headerlink" title="一、为什么要进行卷积？"></a>一、为什么要进行卷积？</h3><p>卷积操作的目的是提取图像的特征。都提取什么特征呢？根据不同的卷积核、不同的计算方式，会得到不同的特征提取图。</p>
 <p>如下图，左边是相同的一整图，通过三次卷积操作，得到了三张特征图，分别是锐化、浮雕、轮廓。（<strong>原来ps或中很多照片效果是直接经过卷积计算得来的</strong>）</p>
 <img src="/2019/12/21/卷积操作基础/a.jpg">
 
@@ -276,10 +276,16 @@
 
 
 <h3 id="五、1-1卷积"><a href="#五、1-1卷积" class="headerlink" title="五、1*1卷积"></a>五、1*1卷积</h3><p>首先假设用平面的二维图像与1*1的核进行卷积，则我们会得到：</p>
-<p><img src="https://img-blog.csdn.net/20180518134610521?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI0NjU2NTU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<img src="/2019/12/21/卷积操作基础/d.png">
+
+
+
 <p>这样只会在原来的像素上乘上一个系数，并没有什么直接的效果。</p>
 <p>但是假设在一个多通道的图像中用上<strong>1*1</strong>的卷积核，我们会得到什么样的效果呢？</p>
-<p><img src="https://img-blog.csdn.net/20180518134633441?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI0NjU2NTU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<img src="/2019/12/21/卷积操作基础/e.png">
+
+
+
 <p>用一个6 x 6 x 32的图像去乘以1<em>1</em>32的卷积核得到的其实是一个6*6的二维矩阵。这样就将通道数32给消除了，相当于给图像降维的操作，而且很迅速。</p>
 <p>卷积核的通道数必须与源图像的通道数相同。在通常的神经网络中，一般不会单独只使用1个卷积核，当使用的卷积核的个数是filters的时候，最后输出的就是一个6<em>6</em>filters的立方块。</p>
 
@@ -396,6 +402,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2020/01/03/Stacked-Hourglass-Networks-for-Human/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Stacked Hourglass Networks for Human
+        
+      </div>
+    </a>
+  
   
     <a href="/2019/12/21/UPSampling-SUBSampling/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">UPSampling &amp;&amp; SUBSampling</div>
@@ -471,7 +486,7 @@ gitment.render('gitment-ctn')
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 桦七
+    		&copy; 2020 桦七
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

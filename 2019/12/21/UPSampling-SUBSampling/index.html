@@ -16,16 +16,16 @@
 <meta property="og:site_name" content="桦七">
 <meta property="og:description" content="最近阅读论文碰到上下采样计算，所以就了解了一下，大致如下： 一、基本概念  缩小图像（或称为下采样（subsampled）或降采样（downsampled））的主要目的有两个：  使得图像符合显示区域的大小 生成对应图像的缩略图  ​    放大图像（或称为上采样（upsampling）或图像插值（interpolating））的主要目的是放大原图像,从而可以显示在更高分辨率的显示设备上。对图像的">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091217/%E6%9C%80%E9%82%BB%E8%BF%91%E5%85%83.png">
-<meta property="og:image" content="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091217/%E5%8F%8C%E7%BA%BF%E6%80%A7%E5%90%8C%E6%8F%92.png">
+<meta property="og:image" content="http://fryddup.github.io/2019/12/21/UPSampling-SUBSampling/a.png">
+<meta property="og:image" content="http://fryddup.github.io/2019/12/21/UPSampling-SUBSampling/b.png">
 <meta property="og:image" content="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E5%85%AC%E5%BC%8F.png">
-<meta property="og:image" content="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E4%B8%89%E6%AC%A1%E6%8F%92%E5%80%BC%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
-<meta property="og:image" content="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E5%85%AC%E5%BC%8F2.png">
-<meta property="og:updated_time" content="2019-12-21T15:17:19.872Z">
+<meta property="og:image" content="http://fryddup.github.io/2019/12/21/UPSampling-SUBSampling/c.png">
+<meta property="og:image" content="http://fryddup.github.io/2019/12/21/UPSampling-SUBSampling/d.png">
+<meta property="og:updated_time" content="2020-01-03T15:03:02.006Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UPSampling &amp;&amp; SUBSampling">
 <meta name="twitter:description" content="最近阅读论文碰到上下采样计算，所以就了解了一下，大致如下： 一、基本概念  缩小图像（或称为下采样（subsampled）或降采样（downsampled））的主要目的有两个：  使得图像符合显示区域的大小 生成对应图像的缩略图  ​    放大图像（或称为上采样（upsampling）或图像插值（interpolating））的主要目的是放大原图像,从而可以显示在更高分辨率的显示设备上。对图像的">
-<meta name="twitter:image" content="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091217/%E6%9C%80%E9%82%BB%E8%BF%91%E5%85%83.png">
+<meta name="twitter:image" content="http://fryddup.github.io/2019/12/21/UPSampling-SUBSampling/a.png">
   
     <link rel="alternative" href="/atom.xml" title="桦七" type="application/atom+xml">
   
@@ -232,14 +232,17 @@
 上采样原理：图像放大几乎都是采用内插值方法，即在原有图像像素的基础上在像素点之间采用合适的插值算法插入新的元素。</code></pre><p>无论缩放图像（下采样）还是放大图像（上采样），采样方式有很多种。如最近邻插值，双线性插值，均值插值，中值插值等方法。在AlexNet中就使用了较合适的插值方法。各种插值方法都有各自的优缺点。</p>
 <hr>
 <h4 id="二、常用的插值方法"><a href="#二、常用的插值方法" class="headerlink" title="二、常用的插值方法"></a>二、常用的插值方法</h4><h5 id="1、最邻近元法"><a href="#1、最邻近元法" class="headerlink" title="1、最邻近元法"></a>1、最邻近元法</h5><p>　　这是最简单的一种插值方法，不需要计算，在待求象素的四邻象素中，将距离待求象素最近的邻象素灰度赋给待求象素。设i+u, j+v(i, j为正整数， u, v为大于零小于1的小数，下同)为待求象素坐标，则待求象素灰度的值 f(i+u, j+v)　如下图所示：</p>
-<img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091217/%E6%9C%80%E9%82%BB%E8%BF%91%E5%85%83.png" alt="img" style="zoom:150%;">
+<img src="/2019/12/21/UPSampling-SUBSampling/a.png">
 
 
 
 <p>如果(i+u, j+v)落在A区，即u&lt;0.5, v&lt;0.5，则将左上角象素的灰度值赋给待求象素，同理，落在B区则赋予右上角的象素灰度值，落在C区则赋予左下角象素的灰度值，落在D区则赋予右下角象素的灰度值。</p>
 <p>最邻近元法计算量较小，但可能会造成插值生成的图像灰度上的不连续，在灰度变化的地方可能出现明显的锯齿状。</p>
 <h5 id="2、双线性内插法"><a href="#2、双线性内插法" class="headerlink" title="2、双线性内插法"></a>2、双线性内插法</h5><p>双线性内插法是利用待求象素四个邻象素的灰度在两个方向上作线性内插，如下图所示：</p>
-<p><img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091217/%E5%8F%8C%E7%BA%BF%E6%80%A7%E5%90%8C%E6%8F%92.png" alt="img"></p>
+<img src="/2019/12/21/UPSampling-SUBSampling/b.png">
+
+
+
 <p>对于 (i, j+v)，f(i, j) 到 f(i, j+1) 的灰度变化为线性关系，则有：</p>
 <p>　　　　　　f(i, j+v) = [f(i, j+1) - f(i, j)] * v + f(i, j)</p>
 <p>同理对于 (i+1, j+v) 则有：</p>
@@ -248,11 +251,15 @@
 <h5 id="3、三次内插法"><a href="#3、三次内插法" class="headerlink" title="3、三次内插法"></a>3、三次内插法</h5><p>该方法利用三次多项式S(x)求逼近理论上最佳插值函数sin(x)/x, 其数学表达式为：</p>
 <p><img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E5%85%AC%E5%BC%8F.png" alt="img"></p>
 <p>待求像素(x, y)的灰度值由其周围16个灰度值加权内插得到，如下图：</p>
-<p><img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E4%B8%89%E6%AC%A1%E6%8F%92%E5%80%BC%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="img"></p>
+<img src="/2019/12/21/UPSampling-SUBSampling/c.png">
+
+
+
 <p>待求像素的灰度计算式如下：</p>
 <p>f(x, y) = f(i+u, j+v) = ABC</p>
 <p>其中: </p>
-<p> <img src="https://p-blog.csdn.net/images/p_blog_csdn_net/coy_wang/EntryImages/20091218/%E5%85%AC%E5%BC%8F2.png" alt="img"></p>
+ <img src="/2019/12/21/UPSampling-SUBSampling/d.png">
+
 <p>三次曲线插值方法计算量较大，但插值后的图像效果最好。</p>
 
       
@@ -452,7 +459,7 @@ gitment.render('gitment-ctn')
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 桦七
+    		&copy; 2020 桦七
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
