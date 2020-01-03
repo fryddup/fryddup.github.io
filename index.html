@@ -211,7 +211,7 @@
         <p>发表于2016ECCV</p>
 <h4 id="一、结构概览"><a href="#一、结构概览" class="headerlink" title="一、结构概览"></a>一、结构概览</h4><p><strong>1.1 CNN结构</strong></p>
 <p>CNN卷积神经网络，可以提取图像特征，从细节开始一层层的识别、提取特征，经过很深很多层之后，可以提取出具有语义的信息，人脸是被、物体检测分类等得到广泛应用。</p>
-<p></p>
+<p><img src="/2020/01/03/Stacked-Hourglass-Networks-for-Human/a.png" title="}</p> <p><strong>1.2 同时使用多层特征（尺寸不同）</strong></p> <p><strong>stacked hourglass net</strong> 的主要贡献在于利用多尺度特征来识别姿态。以前估计姿态的网络结构，大多只使用最后一层的卷积特征，这样会造成信息的丢失。事实上，对于姿态估计这种关联型任务，全身不同的关节点，并不是在相同的feature map上具有最好的识别精度。举例来说，胳膊可能在第3层的feature map上容易识别，而头部在第5层上更容易识别，见下图。所以，需要设计一种可以同时使用多个feature map的网络结构。</p> <p>{% asset_img b.png }</p> <h4 id=二、网络结构详解><a href=#二、网络结构详解 class=headerlink title=二、网络结构详解></a>二、网络结构详解</h4><p><strong>2.1 Hourglass Network</strong></p> <p>{% asset_img c.png }</p> <p>上图就是原论文里给出的HourGlass Model，跟2.2节中的网络结构（c1-c7）相比，有两个显著不同：（1）右边就像左边的镜像一样，倒序的复制了一份(c4b-c1b)，整体上看起来就是一个沙漏（2）上面也复制了一份(c4a-c1a)，而且每个方块还通过加号与右边对应位置的方块合并。</p> <p>我们来分析下c4b这个网络层，它是由c7和c4a合并来的，这里有两块操作：<br>（1）c7层通过上采样将分辨率扩大一倍，上采样相当于pool层的反操作，为了将feature map的分辨率扩大，比如c7的kernel size为 4x4 ,那么上采样后得到的kernel size 为 8x8 。<br>（2）c4a层与c4层的大小保持一致，可以看作是c4层的“副本”，它的kernel size 是c7的两倍，刚好与被上采样后的c7大小一致，可以直接将数值相加，那么就得到了c4b</p> <p>这样将feature map层层叠加后，最后一个大的feature map - c1b 既保留了所有层的信息，又与输入原图大小，意味着可以通过1x1卷积生成代表关键点概率的heat map </p> <p><strong>2.2关节点间的相互参考</strong></p> <p>2.1节给出的hourglass network 其实已经可以用来训练姿态估计了，但是为什么作者还要将沙漏网络串联呢？关节点之间是可以互相参考预测的，即知道双肩的位置后，可以更好的预测肘部节点，给出腰部和脚踝位置，又可以用于预测膝盖。其他姿态估计文章有利用图模型(Graphic Model)来结合CNN做预测的，这个图模型就是对人体关节点的结构做抽象归纳。但是目前的图模型效果一般。</p> <p>既然热图代表了输入对象的所有关节点，那么热力图就包含了所有关节点的相互关系，可以看作是图模型。所以将第一个沙漏网络给出的热力图作为下一个沙漏网络的输入，就意味着第二个沙漏网络可以使用关节点件的相互关系，从而提升了关节点的预测精度。</p> <p>{% asset_img d.png }</p> <p>如上图，N1代表第一个沙漏网络，提取出的混合特征经过1个1x1全卷积网络后，分成上下两个分支，上部分支继续经过1x1卷积后，进入下一个沙漏网络。下部分支先经过1x1卷积后，生成heat map，就是图中蓝色部分.</p> <p>上图中蓝色方块比其他三个方块要窄一些，这是因为heat map矩阵的depth与训练数据里的节点数一致，比如 [1x64x64x16]，其他几个则具有较高的depth，如 [1x64x64x256]</p> <p>heat_map继续经过1x1卷积，将depth调整到与上部分支一致，如256，最后与上部分支合并，一起作为下一个沙漏网络的输入。</p> <p><strong>2.3 中间监督（Intermediate Supervision）</strong><br>传统的识别或者检测网络，loss只比较最后的预测与ground truth之间的差异。因为堆叠沙漏网络的每一个子沙漏网络都会有heat map作为预测，所以将每个沙漏输出的heat map参与到loss中，实验证实，预测精确度要远远好于只考虑最后一个沙漏预测的loss，这种考虑网络中间部分的监督训练方式，就叫做中间监督（Intermediate Supervision）</p>"></p>
       
 
       
@@ -1680,11 +1680,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">First Blog</a>
+                <a href="javascript:void(0)" class="js-tag color1">Python编程学习</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Python编程学习</a>
+                <a href="javascript:void(0)" class="js-tag color1">First Blog</a>
               </li>
              
               <li class="article-tag-list-item">
